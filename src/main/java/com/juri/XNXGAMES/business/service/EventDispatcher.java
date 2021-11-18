@@ -3,6 +3,7 @@ package com.juri.XNXGAMES.business.service;
 import com.juri.XNXGAMES.business.message.BoardToMemberPostMessage;
 import io.github.resilience4j.bulkhead.annotation.Bulkhead;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.MaxRetriesExceededException;
 import io.github.resilience4j.retry.annotation.Retry;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
@@ -22,7 +23,7 @@ public class EventDispatcher {
 	@CircuitBreaker(name = RESILIENCE4J_INSTANCE)
 	@Bulkhead(name = RESILIENCE4J_INSTANCE)
 	@Retry(name = RESILIENCE4J_INSTANCE)
-	public void boardToMemberPostSend(BoardToMemberPostMessage message) {
+	public void boardToMemberPostSend(BoardToMemberPostMessage message) throws MaxRetriesExceededException {
 		rabbitTemplate.convertAndSend(EXCHANGE, "BoardToMember.Post", message);
 	}
 	

@@ -4,8 +4,10 @@ import com.juri.XNXGAMES.business.dto.CommentGetListDTO;
 import com.juri.XNXGAMES.business.dto.CommentPostDTO;
 import com.juri.XNXGAMES.business.dto.CommentPutDTO;
 import com.juri.XNXGAMES.business.entity.CommentEntity;
+import com.juri.XNXGAMES.business.exception.CommentException;
 import com.juri.XNXGAMES.business.repository.CommentRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
@@ -26,15 +28,25 @@ public class CommentServiceImpl implements CommentService {
 				.writerId(commentPostDTO.getWriterId())
 				.content(commentPostDTO.getContent())
 				.build();
-		
-		commentRepository.save(comment);
+
+		try {
+			commentRepository.save(comment);
+		}
+		catch(IllegalArgumentException e) {
+			throw new CommentException(HttpStatus.INTERNAL_SERVER_ERROR, "server can't save");
+		}
 	}
 	
 	@Override
 	public void modifyComment(@NonNull final Long commentId, @NonNull final CommentPutDTO commentPutDTO) {
 		String content = commentPutDTO.getContent();
-		
-		commentRepository.updateById(commentId, content);
+
+		if(commentRepository.existsByCommentId(commentId)) {
+			commentRepository.updateById(commentId, content);
+		}
+		else {
+			throw new CommentException(HttpStatus.BAD_REQUEST, "commentId not exist");
+		}
 	}
 
 	@Override

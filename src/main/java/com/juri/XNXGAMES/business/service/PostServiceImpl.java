@@ -1,18 +1,22 @@
 package com.juri.XNXGAMES.business.service;
 
 import com.juri.XNXGAMES.business.dto.*;
-import com.juri.XNXGAMES.business.message.BoardToMemberPostMessage;
 import com.juri.XNXGAMES.business.entity.PostEntity;
+import com.juri.XNXGAMES.business.exception.PostException;
+import com.juri.XNXGAMES.business.message.BoardToMemberPostMessage;
 import com.juri.XNXGAMES.business.repository.PostRepository;
+import io.github.resilience4j.retry.MaxRetriesExceededException;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -32,12 +36,23 @@ public class PostServiceImpl implements PostService {
 				.gameTagList(postPostDTO.getGameTagList())
 				.build();
 
-		PostEntity savedPost = postRepository.save(post);
-		
-		eventDispatcher.boardToMemberPostSend(
-				new BoardToMemberPostMessage(
-						"create", postPostDTO.getWriterId(), savedPost.getId()
-						));
+		PostEntity savedPost;
+		try {
+			savedPost = postRepository.save(post);
+		}
+		catch(IllegalArgumentException e) {
+			throw new PostException(HttpStatus.INTERNAL_SERVER_ERROR, "server can't save");
+		}
+
+		try {
+			eventDispatcher.boardToMemberPostSend(
+					new BoardToMemberPostMessage(
+							"create", postPostDTO.getWriterId(), savedPost.getId()
+					));
+		}
+		catch(MaxRetriesExceededException e) {
+			throw new PostException(HttpStatus.INTERNAL_SERVER_ERROR, "server can't send message to message queue");
+		}
 	}
 	
 	@Override
@@ -54,7 +69,6 @@ public class PostServiceImpl implements PostService {
 												boardCriDTO.getAmountData());
 		
 		List<PostEntity> list = postRepository.findByBoardIdOrderByRegdateDesc(boardId, boardPaging);
-		
 		
 		List<PostGetListDTO> returnList = new ArrayList<>();
 		SimpleDateFormat format = new SimpleDateFormat("MM-dd");
@@ -79,33 +93,47 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public PostGetDTO getPost(@NonNull final Long postId) {
-		PostEntity post = postRepository.findById(postId).get();
+		Optional<PostEntity> postEntityOptional = postRepository.findById(postId);
+
+		PostEntity postEntity;
+		if(postEntityOptional.isPresent()) {
+			postEntity = postEntityOptional.get();
+		}
+		else {
+			throw new PostException(HttpStatus.NOT_FOUND, "post not exist");
+		}
+
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		
-		PostGetDTO dto = PostGetDTO.builder()
-				.postId(post.getId())
-				.postType(post.getType())
-				.writerId(post.getWriterId())
-				.commentCount(post.getCommentCount())
-				.regdate(format.format(post.getRegdate()))
-				.title(post.getTitle())
-				.content(post.getContent())
-				.hits(post.getHits())
-				.heartCount(post.getHeartCount())
-				.gameTagList(post.getGameTagList())
+		PostGetDTO postGetDTO = PostGetDTO.builder()
+				.postId(postEntity.getId())
+				.postType(postEntity.getType())
+				.writerId(postEntity.getWriterId())
+				.commentCount(postEntity.getCommentCount())
+				.regdate(format.format(postEntity.getRegdate()))
+				.title(postEntity.getTitle())
+				.content(postEntity.getContent())
+				.hits(postEntity.getHits())
+				.heartCount(postEntity.getHeartCount())
+				.gameTagList(postEntity.getGameTagList())
 				.build();
 		
-		return dto;
+		return postGetDTO;
 	}
 
 	@Override
 	public void deletePost(@NonNull final Long postId) {
 		postRepository.deleteById(postId);
-		
-		eventDispatcher.boardToMemberPostSend(
-				new BoardToMemberPostMessage(
-						"delete", "", postId
-						));
+
+		try {
+			eventDispatcher.boardToMemberPostSend(
+					new BoardToMemberPostMessage(
+							"delete", "", postId
+					));
+		}
+		catch(MaxRetriesExceededException e) {
+			throw new PostException(HttpStatus.INTERNAL_SERVER_ERROR, "server can't send message to message queue");
+		}
 	}
 
 	@Override

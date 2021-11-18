@@ -11,6 +11,8 @@ import java.util.List;
 
 public interface CommentRepository extends JpaRepository<CommentEntity, Long> {
 
+	boolean existsByCommentId(Long commentId);
+
 	List<CommentEntity> findByPostIdOrderByRegdateDesc(Long postId);
 	
 	@Modifying
