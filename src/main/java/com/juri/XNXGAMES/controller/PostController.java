@@ -4,6 +4,8 @@ import com.juri.XNXGAMES.DTO.*;
 import com.juri.XNXGAMES.service.BoardService;
 import com.juri.XNXGAMES.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,39 +18,41 @@ public class PostController {
 	private final PostService postService;
 
 	@GetMapping("/boards")
-	public Long getBoardId(@RequestParam String boardType,
-							@RequestParam String boardSubType) {
-		return boardService.getBoardId(boardType, boardSubType);
+	public ResponseEntity<Long> getBoardId(@RequestParam String boardType, @RequestParam String boardSubType) {
+		return new ResponseEntity<>(boardService.getBoardId(boardType, boardSubType), HttpStatus.OK);
 	}
 	
 	@PostMapping("/boards/{boardId}/posts")
-	public void insertPost(@PathVariable Long boardId, @RequestBody PostPostDTO postPostDTO) {
+	public ResponseEntity<Void> insertPost(@PathVariable Long boardId, @RequestBody PostPostDTO postPostDTO) {
 		postService.insertPost(boardId, postPostDTO);
+		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/boards/{boardId}/posts/{postId}")
-	public void updatePost(@PathVariable Long postId, @RequestBody PostPutDTO postPutDTO) {
+	public ResponseEntity<Void> updatePost(@PathVariable Long postId, @RequestBody PostPutDTO postPutDTO) {
 		postService.updatePost(postId, postPutDTO);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@GetMapping("/boards/{boardId}/posts")
-	public List<PostGetListDTO> getPostList(@PathVariable Long boardId, @RequestBody BoardCriteriaDTO boardCriDTO) {
-		return postService.getPostList(boardId, boardCriDTO);
+	public ResponseEntity<List<PostGetListDTO>> getPostList(@PathVariable Long boardId, @RequestBody BoardCriteriaDTO boardCriDTO) {
+		return new ResponseEntity<>(postService.getPostList(boardId, boardCriDTO), HttpStatus.OK);
 	}
 	
 	@GetMapping("/boards/{boardId}/posts/{postId}")
-	public PostGetDTO getPost(@PathVariable Long postId) {
-		return postService.getPost(postId);
+	public ResponseEntity<PostGetDTO> getPost(@PathVariable Long postId) {
+		return new ResponseEntity<>(postService.getPost(postId), HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/boards/{boardId}/posts/{postId}")
-	public void deletePost(@PathVariable Long postId) {
+	public ResponseEntity<Void> deletePost(@PathVariable Long postId) {
 		postService.deletePost(postId);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@GetMapping("/boards/{boardId}/posts/amount")
-	public int getAmountPost(@PathVariable Long boardId) {
-		return postService.getAmountPost(boardId);
+	public ResponseEntity<Integer> getAmountPost(@PathVariable Long boardId) {
+		return new ResponseEntity<>(postService.getAmountPost(boardId), HttpStatus.OK);
 	}
 	
 }
