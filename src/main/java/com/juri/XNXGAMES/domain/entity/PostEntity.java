@@ -1,28 +1,12 @@
 package com.juri.XNXGAMES.domain.entity;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import javax.persistence.*;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "post")
@@ -65,5 +49,14 @@ public class PostEntity {
 
 	@ElementCollection(fetch = FetchType.EAGER)
 	private List<String> gameTagList;
-	
+
+	@Builder
+	public PostEntity(String type, Long boardId, String writerId, String title, String content, List<String> gameTagList) {
+		this.type = type;
+		this.boardId = boardId;
+		this.writerId = writerId;
+		this.title = title;
+		this.content = content;
+		this.gameTagList = gameTagList;
+	}
 }

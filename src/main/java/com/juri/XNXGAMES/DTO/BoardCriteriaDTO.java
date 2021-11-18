@@ -9,8 +9,6 @@ import lombok.ToString;
 @RequiredArgsConstructor
 public class BoardCriteriaDTO {
 
-	private final String boardType;
-	private final String boardSubType;
 	private final int currentPageNum;
 	private final int amountData;
 	

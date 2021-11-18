@@ -1,68 +1,53 @@
 package com.juri.XNXGAMES.controller;
 
-import java.util.List;
-
-import lombok.RequiredArgsConstructor;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import com.juri.XNXGAMES.DTO.BoardCriteriaDTO;
-import com.juri.XNXGAMES.DTO.PostGetDTO;
-import com.juri.XNXGAMES.DTO.PostGetListDTO;
-import com.juri.XNXGAMES.DTO.PostPutDTO;
-import com.juri.XNXGAMES.domain.entity.PostEntity;
+import com.juri.XNXGAMES.DTO.*;
 import com.juri.XNXGAMES.service.BoardService;
 import com.juri.XNXGAMES.service.PostService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 
-import lombok.AllArgsConstructor;
+import java.util.List;
 
 @RestController
-@RequestMapping("/board/post/*")
 @RequiredArgsConstructor
 public class PostController {
 
 	private final BoardService boardService;
 	private final PostService postService;
-	
-	@PostMapping("/")
-	public void insertPost(@RequestBody PostPutDTO postDTO) {
-		String boardType = postDTO.getBoardType();
-		String boardSubType = postDTO.getBoardSubType();
-		
-		Long boardId = boardService.searchBoard(boardType, boardSubType);
-		postService.insertPost(boardId, postDTO);
+
+	@GetMapping("/boards")
+	public Long getBoardId(@RequestParam String boardType,
+							@RequestParam String boardSubType) {
+		return boardService.searchBoard(boardType, boardSubType);
 	}
 	
-	@PutMapping("/")
-	public void updatePost(@RequestBody PostPutDTO postDTO) {
-		postService.updatePost(postDTO);
+	@PostMapping("/boards/{boardId}/posts")
+	public void insertPost(@PathVariable Long boardId, @RequestBody PostPostDTO postPostDTO) {
+		postService.insertPost(boardId, postPostDTO);
 	}
 	
-	@GetMapping("/list")
-	public List<PostGetListDTO> getPostList(@RequestBody BoardCriteriaDTO boardCriDTO) {
-		System.out.println(boardCriDTO.getBoardType() + " " + boardCriDTO.getBoardSubType());
-		
-		Long boardId = boardService.searchBoard(boardCriDTO.getBoardType(), 
-												boardCriDTO.getBoardSubType());
-		
+	@PutMapping("/boards/{boardId}/posts/{postId}")
+	public void updatePost(@PathVariable Long postId, @RequestBody PostPutDTO postPutDTO) {
+		postService.updatePost(postId, postPutDTO);
+	}
+	
+	@GetMapping("/boards/{boardId}/posts")
+	public List<PostGetListDTO> getPostList(@PathVariable Long boardId, @RequestBody BoardCriteriaDTO boardCriDTO) {
 		return postService.getPostList(boardId, boardCriDTO);
 	}
 	
-	@GetMapping("/")
-	public PostGetDTO getPost(Long postId) {
+	@GetMapping("/boards/{boardId}/posts/{postId}")
+	public PostGetDTO getPost(@PathVariable Long postId) {
 		return postService.getPost(postId);
 	}
 	
-	@DeleteMapping("/")
-	public void deletePost(Long postId) {
+	@DeleteMapping("/boards/{boardId}/posts/{postId}")
+	public void deletePost(@PathVariable Long postId) {
 		postService.deletePost(postId);
 	}
 	
-	@GetMapping("/amount")
-	public int getAmountPost(@RequestParam String boardType,
-							 @RequestParam String boardSubType) {
-		Long boardId = boardService.searchBoard(boardType, boardSubType);
-		
+	@GetMapping("/boards/{boardId}/posts/amount")
+	public int getAmountPost(@PathVariable Long boardId) {
 		return postService.getAmountPost(boardId);
 	}
 	

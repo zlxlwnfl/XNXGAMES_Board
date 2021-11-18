@@ -1,23 +1,11 @@
 package com.juri.XNXGAMES.domain.entity;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "comment")
@@ -45,5 +33,11 @@ public class CommentEntity {
 	
 	@ColumnDefault("0")
 	private int heartCount;
-	
+
+	@Builder
+	public CommentEntity(Long postId, String writerId, String content) {
+		this.postId = postId;
+		this.writerId = writerId;
+		this.content = content;
+	}
 }

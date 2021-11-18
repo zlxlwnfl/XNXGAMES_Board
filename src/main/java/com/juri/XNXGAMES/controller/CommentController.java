@@ -1,42 +1,37 @@
 package com.juri.XNXGAMES.controller;
 
-import java.util.List;
-
+import com.juri.XNXGAMES.DTO.CommentGetListDTO;
+import com.juri.XNXGAMES.DTO.CommentPostDTO;
+import com.juri.XNXGAMES.DTO.CommentPutDTO;
+import com.juri.XNXGAMES.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import com.juri.XNXGAMES.DTO.CommentGetListDTO;
-import com.juri.XNXGAMES.DTO.CommentPutDTO;
-import com.juri.XNXGAMES.service.BoardService;
-import com.juri.XNXGAMES.service.CommentService;
-import com.juri.XNXGAMES.service.PostService;
-
-import lombok.AllArgsConstructor;
+import java.util.List;
 
 @RestController
-@RequestMapping("/board/comment/*")
 @RequiredArgsConstructor
 public class CommentController {
 
 	private final CommentService commentService;
 	
-	@PostMapping("/")
-	public void insertComment(@RequestBody CommentPutDTO commentDTO) {
-		commentService.insertComment(commentDTO);
+	@PostMapping("/boards/{boardId}/posts/{postId}/comments")
+	public void insertComment(@PathVariable Long postId, @RequestBody CommentPostDTO commentPostDTO) {
+		commentService.insertComment(postId, commentPostDTO);
 	}
 	
-	@PutMapping("/")
-	public void modifyComment(@RequestBody CommentPutDTO commentDTO) {
-		commentService.modifyComment(commentDTO);
+	@PutMapping("/boards/{boardId}/posts/{postId}/comments/{commentId}")
+	public void modifyComment(@PathVariable Long commentId, @RequestBody CommentPutDTO commentPutDTO) {
+		commentService.modifyComment(commentId, commentPutDTO);
 	}
 	
-	@GetMapping("/")
-	public List<CommentGetListDTO> getCommentList(Long postId) {
+	@GetMapping("/boards/{boardId}/posts/{postId}/comments")
+	public List<CommentGetListDTO> getCommentList(@PathVariable Long postId) {
 		return commentService.getCommentList(postId);
 	}
 	
-	@DeleteMapping("/")
-	public void deleteComment(Long commentId) {
+	@DeleteMapping("/boards/{boardId}/posts/{postId}/comments/{commentId}")
+	public void deleteComment(@PathVariable Long postId, @PathVariable Long commentId) {
 		commentService.deleteComment(commentId);
 	}
 	

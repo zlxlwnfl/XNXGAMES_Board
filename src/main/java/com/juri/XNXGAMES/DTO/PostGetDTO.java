@@ -1,5 +1,6 @@
 package com.juri.XNXGAMES.DTO;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -9,6 +10,7 @@ import java.util.List;
 @Getter
 @ToString
 @RequiredArgsConstructor
+@Builder
 public class PostGetDTO {
 	
 	private final Long postId;

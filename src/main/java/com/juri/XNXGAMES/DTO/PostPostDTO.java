@@ -9,8 +9,9 @@ import java.util.List;
 @Getter
 @ToString
 @RequiredArgsConstructor
-public class PostPutDTO {
+public class PostPostDTO {
 
+	private final Long postId;
 	private final String title;
 	private final String content;
 	private final String writerId;
