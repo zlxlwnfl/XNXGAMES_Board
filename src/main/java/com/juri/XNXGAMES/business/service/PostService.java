@@ -7,7 +7,7 @@ import java.util.List;
 public interface PostService {
 
 	void insertPost(long boardId, PostPostDTO postPostDTO);
-	void updatePost(long postId, PostPutDTO postDTO);
+	void modifyPost(long postId, PostPutDTO postDTO);
 	List<PostGetListDTO> getPostList(long boardId, BoardCriteriaDTO boardCriDTO);
 	PostGetDTO getPost(long postId);
 	void deletePost(long postId);

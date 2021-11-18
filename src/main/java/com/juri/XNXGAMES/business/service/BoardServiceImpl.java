@@ -1,5 +1,7 @@
 package com.juri.XNXGAMES.business.service;
 
+import com.juri.XNXGAMES.business.dto.BoardDTO;
+import com.juri.XNXGAMES.business.dto.BoardGetListDTO;
 import com.juri.XNXGAMES.business.entity.BoardEntity;
 import com.juri.XNXGAMES.business.exception.BoardException;
 import com.juri.XNXGAMES.business.repository.BoardRepository;
@@ -8,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +21,7 @@ public class BoardServiceImpl implements BoardService {
 	BoardRepository boardRepository;
 
 	@Override
-	public Long getBoardId(@NonNull final String type, @NonNull final String subType) {
+	public Long getBoard(@NonNull final String type, @NonNull final String subType) {
 		Optional<BoardEntity> boardEntityOptional = boardRepository.findByTypeAndSubType(type, subType);
 
 		if(boardEntityOptional.isPresent()) {
@@ -30,9 +33,55 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<Long> getBoardIdList(@NonNull final long boardId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<BoardGetListDTO> getBoardList() {
+		List<BoardEntity> list = boardRepository.findAll();
+
+		List<BoardGetListDTO> dtoList = new ArrayList<>();
+
+		for(BoardEntity board : list) {
+			BoardGetListDTO dto = BoardGetListDTO.builder()
+					.boardId(board.getId())
+					.boardType(board.getType())
+					.boardSubType(board.getSubType())
+					.build();
+
+			dtoList.add(dto);
+		}
+
+		return dtoList;
 	}
-	
+
+	@Override
+	public void insertBoard(@NonNull final BoardDTO boardDTO) {
+		BoardEntity board = BoardEntity.builder()
+				.type(boardDTO.getBoardType())
+				.subType(boardDTO.getBoardSubType())
+				.build();
+
+		try {
+			boardRepository.save(board);
+		}
+		catch(IllegalArgumentException e) {
+			throw new BoardException(HttpStatus.INTERNAL_SERVER_ERROR, "server can't save");
+		}
+	}
+
+	@Override
+	public void modifyBoard(final long boardId, @NonNull final BoardDTO boardDTO) {
+		String type = boardDTO.getBoardType();
+		String subType = boardDTO.getBoardSubType();
+
+		if(boardRepository.existsByBoardId(boardId)) {
+			boardRepository.updateById(boardId, type, subType);
+		}
+		else {
+			throw new BoardException(HttpStatus.BAD_REQUEST, "boardId not exist");
+		}
+	}
+
+	@Override
+	public void deleteBoard(final long boardId) {
+		boardRepository.deleteById(boardId);
+	}
+
 }

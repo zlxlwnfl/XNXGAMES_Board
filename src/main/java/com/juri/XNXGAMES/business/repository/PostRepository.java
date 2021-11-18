@@ -12,6 +12,8 @@ import java.util.List;
 
 public interface PostRepository extends JpaRepository<PostEntity, Long> {
 
+	boolean existsByPostId(long postId);
+
 	List<PostEntity> findByBoardIdOrderByRegdateDesc(long boardId, Pageable boardPaging);
 	
 	@Query("SELECT COUNT(id) FROM PostEntity WHERE boardId = :boardId")

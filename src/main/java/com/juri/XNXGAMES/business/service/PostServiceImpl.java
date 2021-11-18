@@ -56,11 +56,16 @@ public class PostServiceImpl implements PostService {
 	}
 	
 	@Override
-	public void updatePost(final long postId, @NonNull final PostPutDTO postPutDTO) {
+	public void modifyPost(final long postId, @NonNull final PostPutDTO postPutDTO) {
 		String title = postPutDTO.getTitle();
 		String content = postPutDTO.getContent();
-		
-		postRepository.updateById(postId, title, content);
+
+		if(postRepository.existsByPostId(postId)) {
+			postRepository.updateById(postId, title, content);
+		}
+		else {
+			throw new PostException(HttpStatus.BAD_REQUEST, "postId not exist");
+		}
 	}
 
 	@Override
