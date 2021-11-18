@@ -62,7 +62,7 @@ public class PostEntity {
 	
 	@ColumnDefault("0")
 	private int heartCount;
-	
+
 	@ElementCollection(fetch = FetchType.EAGER)
 	private List<String> gameTagList;
 	

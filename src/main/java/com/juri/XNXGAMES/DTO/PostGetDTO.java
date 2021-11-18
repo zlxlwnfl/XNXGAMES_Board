@@ -1,13 +1,10 @@
 package com.juri.XNXGAMES.DTO;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
-import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+
+import java.util.List;
 
 @Getter
 @ToString

@@ -1,6 +1,5 @@
 package com.juri.XNXGAMES.DTO;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
