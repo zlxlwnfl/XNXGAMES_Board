@@ -1,13 +1,18 @@
 package com.juri.XNXGAMES.DTO;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
-@Data
+@Getter
+@ToString
+@RequiredArgsConstructor
 public class BoardCriteriaDTO {
 
-	private String boardType;
-	private String boardSubType;
-	private int currentPageNum;
-	private int amountData;
+	private final String boardType;
+	private final String boardSubType;
+	private final int currentPageNum;
+	private final int amountData;
 	
 }

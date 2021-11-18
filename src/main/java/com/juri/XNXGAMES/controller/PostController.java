@@ -2,6 +2,7 @@ package com.juri.XNXGAMES.controller;
 
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,11 +18,11 @@ import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/board/post/*")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PostController {
 
-	BoardService boardService;
-	PostService postService;
+	private final BoardService boardService;
+	private final PostService postService;
 	
 	@PostMapping("/")
 	public void insertPost(@RequestBody PostPutDTO postDTO) {

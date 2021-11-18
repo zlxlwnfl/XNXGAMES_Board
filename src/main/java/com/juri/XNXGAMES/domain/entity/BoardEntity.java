@@ -19,7 +19,10 @@ import lombok.ToString;
 
 @Entity
 @Table(name = "board")
-@Data
+@Getter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class BoardEntity {
 	
 	@Id

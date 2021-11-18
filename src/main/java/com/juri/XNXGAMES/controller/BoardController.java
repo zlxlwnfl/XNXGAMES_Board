@@ -1,5 +1,6 @@
 package com.juri.XNXGAMES.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,9 +10,6 @@ import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/board/*")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class BoardController {
-
-	
-	
 }

@@ -2,6 +2,7 @@ package com.juri.XNXGAMES.controller;
 
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import com.juri.XNXGAMES.DTO.CommentGetListDTO;
@@ -14,10 +15,10 @@ import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/board/comment/*")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CommentController {
 
-	CommentService commentService;
+	private final CommentService commentService;
 	
 	@PostMapping("/")
 	public void insertComment(@RequestBody CommentPutDTO commentDTO) {

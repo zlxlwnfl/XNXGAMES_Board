@@ -22,7 +22,6 @@ import lombok.ToString;
 @Entity
 @Table(name = "comment")
 @Getter
-@Setter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor

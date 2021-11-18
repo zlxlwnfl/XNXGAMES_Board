@@ -14,9 +14,10 @@ import lombok.AllArgsConstructor;
 @Component
 public class EventDispatcher {
 
-	private RabbitTemplate rabbitTemplate;
 	private static final String EXCHANGE = "BoardExchange";
 	private static final String RESILIENCE4J_INSTANCE = "default";
+
+	private final RabbitTemplate rabbitTemplate;
 
 	EventDispatcher(RabbitTemplate rabbitTemplate) {
 		this.rabbitTemplate = rabbitTemplate;

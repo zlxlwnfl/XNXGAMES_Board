@@ -27,7 +27,6 @@ import lombok.ToString;
 @Entity
 @Table(name = "post")
 @Getter
-@Setter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
@@ -64,7 +63,6 @@ public class PostEntity {
 	@ColumnDefault("0")
 	private int heartCount;
 	
-	@Column(nullable = true)
 	@ElementCollection(fetch = FetchType.EAGER)
 	private List<String> gameTagList;
 	

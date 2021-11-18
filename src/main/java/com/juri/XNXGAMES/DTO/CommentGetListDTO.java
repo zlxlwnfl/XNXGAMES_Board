@@ -1,14 +1,19 @@
 package com.juri.XNXGAMES.DTO;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
-@Data
+@Getter
+@ToString
+@RequiredArgsConstructor
 public class CommentGetListDTO {
 
-	private Long commentId;
-	private String writerId;
-	private String regdate;
-	private String content;
-	private int heartCount;
+	private final Long commentId;
+	private final String writerId;
+	private final String regdate;
+	private final String content;
+	private final int heartCount;
 	
 }
