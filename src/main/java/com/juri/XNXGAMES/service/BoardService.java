@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface BoardService {
 
-	Long searchBoard(String type, String subType);
-	List<Long> getBoard(Long boardId);
+	Long getBoardId(String type, String subType);
+	List<Long> getBoardIdList(Long boardId);
 	
 }

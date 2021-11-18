@@ -18,7 +18,7 @@ public class PostController {
 	@GetMapping("/boards")
 	public Long getBoardId(@RequestParam String boardType,
 							@RequestParam String boardSubType) {
-		return boardService.searchBoard(boardType, boardSubType);
+		return boardService.getBoardId(boardType, boardSubType);
 	}
 	
 	@PostMapping("/boards/{boardId}/posts")

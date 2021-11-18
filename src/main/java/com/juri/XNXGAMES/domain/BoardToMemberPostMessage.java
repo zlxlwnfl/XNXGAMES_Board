@@ -1,18 +1,16 @@
 package com.juri.XNXGAMES.domain;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
 import java.io.Serializable;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class BoardToMemberPostMessage implements Serializable {
 
-	private String type; // create, delete
-	private String memberId;
-	private Long postId;
+	private final String type; // create, delete
+	private final String memberId;
+	private final Long postId;
 	
 }

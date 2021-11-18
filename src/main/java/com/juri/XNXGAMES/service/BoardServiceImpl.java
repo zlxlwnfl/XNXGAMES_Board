@@ -14,12 +14,12 @@ public class BoardServiceImpl implements BoardService {
 	BoardRepository boardRepository;
 
 	@Override
-	public Long searchBoard(@NonNull final String type, @NonNull final String subType) {
+	public Long getBoardId(@NonNull final String type, @NonNull final String subType) {
 		return boardRepository.findByTypeAndSubType(type, subType).get().getId();
 	}
 
 	@Override
-	public List<Long> getBoard(@NonNull final Long boardId) {
+	public List<Long> getBoardIdList(@NonNull final Long boardId) {
 		// TODO Auto-generated method stub
 		return null;
 	}

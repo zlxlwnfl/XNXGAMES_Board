@@ -1,7 +1,6 @@
 package com.juri.XNXGAMES.service;
 
 import com.juri.XNXGAMES.DTO.*;
-import com.juri.XNXGAMES.controller.EventDispatcher;
 import com.juri.XNXGAMES.domain.BoardToMemberPostMessage;
 import com.juri.XNXGAMES.domain.entity.PostEntity;
 import com.juri.XNXGAMES.domain.repository.PostRepository;
