@@ -12,15 +12,15 @@ import java.util.List;
 
 public interface PostRepository extends JpaRepository<PostEntity, Long> {
 
-	List<PostEntity> findByBoardIdOrderByRegdateDesc(Long boardId, Pageable boardPaging);
+	List<PostEntity> findByBoardIdOrderByRegdateDesc(long boardId, Pageable boardPaging);
 	
 	@Query("SELECT COUNT(id) FROM PostEntity WHERE boardId = :boardId")
-	int findCountByBoardId(@Param("boardId") Long boardId);
+	int findCountByBoardId(@Param("boardId") long boardId);
 	
 	@Modifying
 	@Transactional
 	@Query("UPDATE PostEntity " +
 			"SET title = :title, content = :content WHERE id = :id")
-	void updateById(@Param("id") Long postId, @Param("title") String title, @Param("content") String content);
+	void updateById(@Param("id") long postId, @Param("title") String title, @Param("content") String content);
 	
 }

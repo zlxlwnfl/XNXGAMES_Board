@@ -11,14 +11,14 @@ import java.util.List;
 
 public interface CommentRepository extends JpaRepository<CommentEntity, Long> {
 
-	boolean existsByCommentId(Long commentId);
+	boolean existsByCommentId(long commentId);
 
-	List<CommentEntity> findByPostIdOrderByRegdateDesc(Long postId);
+	List<CommentEntity> findByPostIdOrderByRegdateDesc(long postId);
 	
 	@Modifying
 	@Transactional
 	@Query("UPDATE CommentEntity " +
 			"SET content = :content WHERE id = :id")
-	void updateById(@Param("id")Long commentId, @Param("content") String content);
+	void updateById(@Param("id")long commentId, @Param("content") String content);
 	
 }

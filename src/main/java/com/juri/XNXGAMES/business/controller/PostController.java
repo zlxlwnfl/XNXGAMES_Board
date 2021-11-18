@@ -23,35 +23,35 @@ public class PostController {
 	}
 	
 	@PostMapping("/boards/{boardId}/posts")
-	public ResponseEntity<Void> insertPost(@PathVariable Long boardId, @RequestBody PostPostDTO postPostDTO) {
+	public ResponseEntity<Void> insertPost(@PathVariable long boardId, @RequestBody PostPostDTO postPostDTO) {
 		postService.insertPost(boardId, postPostDTO);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/boards/{boardId}/posts/{postId}")
-	public ResponseEntity<Void> updatePost(@PathVariable Long postId, @RequestBody PostPutDTO postPutDTO) {
+	public ResponseEntity<Void> updatePost(@PathVariable long postId, @RequestBody PostPutDTO postPutDTO) {
 		postService.updatePost(postId, postPutDTO);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@GetMapping("/boards/{boardId}/posts")
-	public ResponseEntity<List<PostGetListDTO>> getPostList(@PathVariable Long boardId, @RequestBody BoardCriteriaDTO boardCriDTO) {
+	public ResponseEntity<List<PostGetListDTO>> getPostList(@PathVariable long boardId, @RequestBody BoardCriteriaDTO boardCriDTO) {
 		return new ResponseEntity<>(postService.getPostList(boardId, boardCriDTO), HttpStatus.OK);
 	}
 	
 	@GetMapping("/boards/{boardId}/posts/{postId}")
-	public ResponseEntity<PostGetDTO> getPost(@PathVariable Long postId) {
+	public ResponseEntity<PostGetDTO> getPost(@PathVariable long postId) {
 		return new ResponseEntity<>(postService.getPost(postId), HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/boards/{boardId}/posts/{postId}")
-	public ResponseEntity<Void> deletePost(@PathVariable Long postId) {
+	public ResponseEntity<Void> deletePost(@PathVariable long postId) {
 		postService.deletePost(postId);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@GetMapping("/boards/{boardId}/posts/amount")
-	public ResponseEntity<Integer> getAmountPost(@PathVariable Long boardId) {
+	public ResponseEntity<Integer> getAmountPost(@PathVariable long boardId) {
 		return new ResponseEntity<>(postService.getAmountPost(boardId), HttpStatus.OK);
 	}
 	

@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface CommentService {
 
-	void insertComment(Long postId, CommentPostDTO commentPostDTO);
-	void modifyComment(Long commentId, CommentPutDTO commentDTO);
-	List<CommentGetListDTO> getCommentList(Long postId);
-	void deleteComment(Long commentId);
+	void insertComment(long postId, CommentPostDTO commentPostDTO);
+	void modifyComment(long commentId, CommentPutDTO commentDTO);
+	List<CommentGetListDTO> getCommentList(long postId);
+	void deleteComment(long commentId);
 	
 }

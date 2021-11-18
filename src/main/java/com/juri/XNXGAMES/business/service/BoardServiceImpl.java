@@ -30,7 +30,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<Long> getBoardIdList(@NonNull final Long boardId) {
+	public List<Long> getBoardIdList(@NonNull final long boardId) {
 		// TODO Auto-generated method stub
 		return null;
 	}

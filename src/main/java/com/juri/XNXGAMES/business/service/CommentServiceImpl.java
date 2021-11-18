@@ -22,7 +22,7 @@ public class CommentServiceImpl implements CommentService {
 	CommentRepository commentRepository;
 
 	@Override
-	public void insertComment(@NonNull final Long postId, @NonNull final CommentPostDTO commentPostDTO) {
+	public void insertComment(final long postId, @NonNull final CommentPostDTO commentPostDTO) {
 		CommentEntity comment = CommentEntity.builder()
 				.postId(postId)
 				.writerId(commentPostDTO.getWriterId())
@@ -38,7 +38,7 @@ public class CommentServiceImpl implements CommentService {
 	}
 	
 	@Override
-	public void modifyComment(@NonNull final Long commentId, @NonNull final CommentPutDTO commentPutDTO) {
+	public void modifyComment(final long commentId, @NonNull final CommentPutDTO commentPutDTO) {
 		String content = commentPutDTO.getContent();
 
 		if(commentRepository.existsByCommentId(commentId)) {
@@ -50,7 +50,7 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public List<CommentGetListDTO> getCommentList(@NonNull final Long postId) {
+	public List<CommentGetListDTO> getCommentList(final long postId) {
 		List<CommentEntity> list = commentRepository.findByPostIdOrderByRegdateDesc(postId);
 		
 		List<CommentGetListDTO> returnList = new ArrayList<>();
@@ -72,7 +72,7 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public void deleteComment(@NonNull final Long commentId) {
+	public void deleteComment(final long commentId) {
 		commentRepository.deleteById(commentId);
 	}
 

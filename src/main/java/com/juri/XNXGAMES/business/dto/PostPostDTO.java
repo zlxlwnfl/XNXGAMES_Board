@@ -3,6 +3,7 @@ package com.juri.XNXGAMES.business.dto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import org.springframework.lang.NonNull;
 
 import java.util.List;
 
@@ -11,11 +12,16 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostPostDTO {
 
-	private final Long postId;
+	private final long postId;
+	@NonNull
 	private final String title;
+	@NonNull
 	private final String content;
+	@NonNull
 	private final String writerId;
+	@NonNull
 	private final String postType;
+	@NonNull
 	private final List<String> gameTagList;
 	
 }

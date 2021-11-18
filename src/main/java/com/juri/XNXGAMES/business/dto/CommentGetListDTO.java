@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import org.springframework.lang.NonNull;
 
 @Getter
 @ToString
@@ -11,9 +12,12 @@ import lombok.ToString;
 @Builder
 public class CommentGetListDTO {
 
-	private final Long commentId;
+	private final long commentId;
+	@NonNull
 	private final String writerId;
+	@NonNull
 	private final String regdate;
+	@NonNull
 	private final String content;
 	private final int heartCount;
 	

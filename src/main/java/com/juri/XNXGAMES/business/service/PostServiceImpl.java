@@ -26,7 +26,7 @@ public class PostServiceImpl implements PostService {
 	EventDispatcher eventDispatcher;
 
 	@Override
-	public void insertPost(@NonNull final Long boardId, @NonNull final PostPostDTO postPostDTO) {
+	public void insertPost(final long boardId, @NonNull final PostPostDTO postPostDTO) {
 		PostEntity post = PostEntity.builder()
 				.type(postPostDTO.getPostType())
 				.boardId(boardId)
@@ -56,7 +56,7 @@ public class PostServiceImpl implements PostService {
 	}
 	
 	@Override
-	public void updatePost(@NonNull final Long postId, @NonNull final PostPutDTO postPutDTO) {
+	public void updatePost(final long postId, @NonNull final PostPutDTO postPutDTO) {
 		String title = postPutDTO.getTitle();
 		String content = postPutDTO.getContent();
 		
@@ -64,7 +64,7 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public List<PostGetListDTO> getPostList(@NonNull final Long boardId, @NonNull final BoardCriteriaDTO boardCriDTO) {
+	public List<PostGetListDTO> getPostList(final long boardId, @NonNull final BoardCriteriaDTO boardCriDTO) {
 		Pageable boardPaging = PageRequest.of(boardCriDTO.getCurrentPageNum() - 1,
 												boardCriDTO.getAmountData());
 		
@@ -92,7 +92,7 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public PostGetDTO getPost(@NonNull final Long postId) {
+	public PostGetDTO getPost(final long postId) {
 		Optional<PostEntity> postEntityOptional = postRepository.findById(postId);
 
 		PostEntity postEntity;
@@ -122,7 +122,7 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public void deletePost(@NonNull final Long postId) {
+	public void deletePost(final long postId) {
 		postRepository.deleteById(postId);
 
 		try {
@@ -137,7 +137,7 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public int getAmountPost(@NonNull final Long boardId) {
+	public int getAmountPost(final long boardId) {
 		return postRepository.findCountByBoardId(boardId);
 	}
 

@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface PostService {
 
-	void insertPost(Long boardId, PostPostDTO postPostDTO);
-	void updatePost(Long postId, PostPutDTO postDTO);
-	List<PostGetListDTO> getPostList(Long boardId, BoardCriteriaDTO boardCriDTO);
-	PostGetDTO getPost(Long postId);
-	void deletePost(Long postId);
-	int getAmountPost(Long boardId);
+	void insertPost(long boardId, PostPostDTO postPostDTO);
+	void updatePost(long postId, PostPutDTO postDTO);
+	List<PostGetListDTO> getPostList(long boardId, BoardCriteriaDTO boardCriDTO);
+	PostGetDTO getPost(long postId);
+	void deletePost(long postId);
+	int getAmountPost(long boardId);
 	
 }
