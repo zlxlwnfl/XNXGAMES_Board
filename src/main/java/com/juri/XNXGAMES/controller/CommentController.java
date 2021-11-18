@@ -13,7 +13,6 @@ import com.juri.XNXGAMES.service.PostService;
 import lombok.AllArgsConstructor;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping("/board/comment/*")
 @AllArgsConstructor
 public class CommentController {

@@ -16,7 +16,6 @@ import com.juri.XNXGAMES.service.PostService;
 import lombok.AllArgsConstructor;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping("/board/post/*")
 @AllArgsConstructor
 public class PostController {

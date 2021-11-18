@@ -2,6 +2,9 @@
 server:
   port: 8082
 
+frontend:
+  path: ${frontend.path:"http://xnxgames_frontend:8080"}
+
 # DB
 spring:
   datasource:
@@ -38,7 +41,10 @@ logging:
   config: classpath:logback-spring.xml
   
 # Resilience4j
-resilience4j:  circuitbreaker:    configs:      default:
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
         registerHealthIndicator: true
         slidingWindowSize: 10
         minimumNumberOfCalls: 5
@@ -48,30 +54,47 @@ resilience4j:  circuitbreaker:    configs:      default:
         failureRateThreshold: 50
         eventConsumerBufferSize: 10
     instances:
-      default:        baseConfig: default  retry:    configs:      default:
+      default:
+        baseConfig: default
+  retry:
+    configs:
+      default:
         wait-duration: 100
-    instances:      default:
+    instances:
+      default:
         base-config: default
-  bulkhead:    configs:      default:
+  bulkhead:
+    configs:
+      default:
         max-concurrent-calls: 100
-    instances:      default:
+    instances:
+      default:
         base-config: default
-  thread-pool-bulkhead:    configs:      default:
+  thread-pool-bulkhead:
+    configs:
+      default:
         max-thread-pool-size: 4
         core-thread-pool-size: 2
         queue-capacity: 2
-    instances:      default:
+    instances:
+      default:
         base-config: default
-  ratelimiter:    configs:      default:
+  ratelimiter:
+    configs:
+      default:
         register-health-indicator: false
         limit-for-period: 10
         limit-refresh-period: 1s
         timeout-duration: 0
         event-consumer-buffer-size: 100
-    instances:      default:
+    instances:
+      default:
         base-config: default
-  timelimiter:    configs:      default:
+  timelimiter:
+    configs:
+      default:
         cancel-running-future: false
         timeout-duration: 2s
-    instances:      default:
+    instances:
+      default:
         base-config: default
