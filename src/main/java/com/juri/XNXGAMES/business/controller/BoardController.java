@@ -2,6 +2,7 @@ package com.juri.XNXGAMES.business.controller;
 
 import com.juri.XNXGAMES.business.dto.BoardDTO;
 import com.juri.XNXGAMES.business.dto.BoardGetListDTO;
+import com.juri.XNXGAMES.business.entity.BoardEntity;
 import com.juri.XNXGAMES.business.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,9 +31,8 @@ public class BoardController {
     }
 
     @PostMapping("/boards")
-    public ResponseEntity<Void> insertBoard(@RequestBody BoardDTO boardDTO) {
-        boardService.insertBoard(boardDTO);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<BoardEntity> insertBoard(@RequestBody BoardDTO boardDTO) {
+        return new ResponseEntity<>(boardService.insertBoard(boardDTO), HttpStatus.CREATED);
     }
 
     @PutMapping("/boards/{boardId}")

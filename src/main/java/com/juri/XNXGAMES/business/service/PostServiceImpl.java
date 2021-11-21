@@ -26,7 +26,7 @@ public class PostServiceImpl implements PostService {
 	EventDispatcher eventDispatcher;
 
 	@Override
-	public void insertPost(final long boardId, @NonNull final PostPostDTO postPostDTO) {
+	public PostEntity insertPost(final long boardId, @NonNull final PostPostDTO postPostDTO) {
 		PostEntity post = PostEntity.builder()
 				.type(postPostDTO.getPostType())
 				.boardId(boardId)
@@ -53,6 +53,8 @@ public class PostServiceImpl implements PostService {
 		catch(MaxRetriesExceededException e) {
 			throw new PostException(HttpStatus.INTERNAL_SERVER_ERROR, "server can't send message to message queue");
 		}
+
+		return savedPost;
 	}
 	
 	@Override

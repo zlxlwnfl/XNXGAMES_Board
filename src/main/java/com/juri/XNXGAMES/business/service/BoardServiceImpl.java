@@ -52,14 +52,14 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void insertBoard(@NonNull final BoardDTO boardDTO) {
+	public BoardEntity insertBoard(@NonNull final BoardDTO boardDTO) {
 		BoardEntity board = BoardEntity.builder()
 				.type(boardDTO.getBoardType())
 				.subType(boardDTO.getBoardSubType())
 				.build();
 
 		try {
-			boardRepository.save(board);
+			return boardRepository.save(board);
 		}
 		catch(IllegalArgumentException e) {
 			throw new BoardException(HttpStatus.INTERNAL_SERVER_ERROR, "server can't save");

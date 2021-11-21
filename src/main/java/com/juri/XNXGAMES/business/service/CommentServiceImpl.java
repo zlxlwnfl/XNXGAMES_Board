@@ -22,7 +22,7 @@ public class CommentServiceImpl implements CommentService {
 	CommentRepository commentRepository;
 
 	@Override
-	public void insertComment(final long postId, @NonNull final CommentPostDTO commentPostDTO) {
+	public CommentEntity insertComment(final long postId, @NonNull final CommentPostDTO commentPostDTO) {
 		CommentEntity comment = CommentEntity.builder()
 				.postId(postId)
 				.writerId(commentPostDTO.getWriterId())
@@ -30,7 +30,7 @@ public class CommentServiceImpl implements CommentService {
 				.build();
 
 		try {
-			commentRepository.save(comment);
+			return commentRepository.save(comment);
 		}
 		catch(IllegalArgumentException e) {
 			throw new CommentException(HttpStatus.INTERNAL_SERVER_ERROR, "server can't save");
