@@ -6,7 +6,7 @@ import com.juri.XNXGAMES.business.exception.PostException;
 import com.juri.XNXGAMES.business.message.BoardToMemberPostMessage;
 import com.juri.XNXGAMES.business.repository.PostRepository;
 import io.github.resilience4j.retry.MaxRetriesExceededException;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -19,11 +19,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
-	
-	PostRepository postRepository;
-	EventDispatcher eventDispatcher;
+
+	private final PostRepository postRepository;
+	private final EventDispatcher eventDispatcher;
 
 	@Override
 	public PostEntity insertPost(final long boardId, @NonNull final PostPostDTO postPostDTO) {

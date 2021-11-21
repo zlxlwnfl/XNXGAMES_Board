@@ -5,7 +5,7 @@ import com.juri.XNXGAMES.business.dto.BoardGetListDTO;
 import com.juri.XNXGAMES.business.entity.BoardEntity;
 import com.juri.XNXGAMES.business.exception.BoardException;
 import com.juri.XNXGAMES.business.repository.BoardRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
@@ -15,10 +15,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class BoardServiceImpl implements BoardService {
 	
-	BoardRepository boardRepository;
+	private final BoardRepository boardRepository;
 
 	@Override
 	public Long getBoard(@NonNull final String type, @NonNull final String subType) {

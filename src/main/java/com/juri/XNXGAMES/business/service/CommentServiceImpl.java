@@ -6,7 +6,7 @@ import com.juri.XNXGAMES.business.dto.CommentPutDTO;
 import com.juri.XNXGAMES.business.entity.CommentEntity;
 import com.juri.XNXGAMES.business.exception.CommentException;
 import com.juri.XNXGAMES.business.repository.CommentRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
@@ -16,10 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
-	
-	CommentRepository commentRepository;
+
+	private final CommentRepository commentRepository;
 
 	@Override
 	public CommentEntity insertComment(final long postId, @NonNull final CommentPostDTO commentPostDTO) {
