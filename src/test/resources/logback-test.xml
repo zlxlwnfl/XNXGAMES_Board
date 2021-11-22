@@ -16,31 +16,9 @@
         </encoder>
     </appender>
 
-    <appender name="Fluentd" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-	    <destination>fluentd:24224</destination>
-	    <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
-            <providers>
-                <pattern>
-                    <pattern>{"serviceID":"Board"}</pattern>
-                </pattern>
-                <mdc />
-                <timestamp />
-                <context />
-                <threadName />
-                <logLevel />
-                <message />
-                <loggerName />
-                <logstashMarkers />
-                <stackTrace />
-                <callerData />
-            </providers>
-        </encoder>
-	</appender>
-	
-	<root>
-	    <level value="INFO"/>
+    <root>
+        <level value="INFO"/>
         <appender-ref ref="Console"/>
-	    <appender-ref ref="Fluentd"/>
-	</root>
+    </root>
 
 </configuration>
