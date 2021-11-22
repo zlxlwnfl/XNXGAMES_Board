@@ -26,7 +26,7 @@ public class BoardServiceImpl implements BoardService {
 				boardRepository.findByTypeAndSubType(boardDTO.getBoardType(), boardDTO.getBoardSubType());
 
 		if(boardEntityOptional.isPresent()) {
-			return boardEntityOptional.get().getId();
+			return boardEntityOptional.get().getBoardId();
 		}
 		else {
 			throw new BoardException(HttpStatus.NOT_FOUND, "board not exist");
@@ -41,7 +41,7 @@ public class BoardServiceImpl implements BoardService {
 
 		for(BoardEntity board : list) {
 			BoardGetListDTO dto = BoardGetListDTO.builder()
-					.boardId(board.getId())
+					.boardId(board.getBoardId())
 					.boardType(board.getType())
 					.boardSubType(board.getSubType())
 					.build();

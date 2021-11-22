@@ -18,13 +18,13 @@ public class PostEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private long postId;
 
 	@Column(length = 10, nullable = false)
 	private String type;
 	
 	@Column(nullable = false)
-	private Long boardId;
+	private long boardId;
 	
 	@Column(length = 10, nullable = false)
 	private String writerId;
@@ -51,7 +51,7 @@ public class PostEntity {
 	private List<String> gameTagList;
 
 	@Builder
-	public PostEntity(String type, Long boardId, String writerId, String title, String content, List<String> gameTagList) {
+	public PostEntity(String type, long boardId, String writerId, String title, String content, List<String> gameTagList) {
 		this.type = type;
 		this.boardId = boardId;
 		this.writerId = writerId;

@@ -14,7 +14,7 @@ public class BoardEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private long boardId;
 
 	@Column(length = 10, nullable = false)
 	private String type;

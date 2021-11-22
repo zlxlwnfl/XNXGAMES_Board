@@ -17,10 +17,10 @@ public class CommentEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private long commentId;
 	
 	@Column(nullable = false)
-	private Long postId;
+	private long postId;
 	
 	@Column(length = 10, nullable = false)
 	private String writerId;
@@ -35,7 +35,7 @@ public class CommentEntity {
 	private int heartCount;
 
 	@Builder
-	public CommentEntity(Long postId, String writerId, String content) {
+	public CommentEntity(long postId, String writerId, String content) {
 		this.postId = postId;
 		this.writerId = writerId;
 		this.content = content;

@@ -58,7 +58,7 @@ public class CommentServiceImpl implements CommentService {
 		
 		for(CommentEntity comment : list) {
 			CommentGetListDTO dto = CommentGetListDTO.builder()
-					.commentId(comment.getId())
+					.commentId(comment.getCommentId())
 					.writerId(comment.getWriterId())
 					.regdate(format.format(comment.getRegdate()))
 					.content(comment.getContent())

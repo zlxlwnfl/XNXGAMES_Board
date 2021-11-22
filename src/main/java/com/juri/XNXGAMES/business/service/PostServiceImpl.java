@@ -47,7 +47,7 @@ public class PostServiceImpl implements PostService {
 		try {
 			eventDispatcher.boardToMemberPostSend(
 					new BoardToMemberPostMessage(
-							"create", postPostDTO.getWriterId(), savedPost.getId()
+							"create", postPostDTO.getWriterId(), savedPost.getPostId()
 					));
 		}
 		catch(MaxRetriesExceededException e) {
@@ -82,7 +82,7 @@ public class PostServiceImpl implements PostService {
 		
 		for(PostEntity p : list) {
 			PostGetListDTO dto = PostGetListDTO.builder()
-					.postId(p.getId())
+					.postId(p.getPostId())
 					.postType(p.getType())
 					.writerId(p.getWriterId())
 					.commentCount(p.getCommentCount())
@@ -113,7 +113,7 @@ public class PostServiceImpl implements PostService {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		
 		PostGetDTO postGetDTO = PostGetDTO.builder()
-				.postId(postEntity.getId())
+				.postId(postEntity.getPostId())
 				.postType(postEntity.getType())
 				.writerId(postEntity.getWriterId())
 				.commentCount(postEntity.getCommentCount())
