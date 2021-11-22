@@ -48,7 +48,7 @@ public class BoardServiceTests {
     public void testGetBoardReturnValidBoardId() {
         Mockito.when(mockBoardRepository.findByTypeAndSubType(TYPE, SUB_TYPE)).thenReturn(Optional.of(validBoardEntity));
 
-        Assertions.assertEquals(boardService.getBoard(validBoardDTO), 1);
+        Assertions.assertEquals(1, boardService.getBoard(validBoardDTO));
     }
 
     @Test
@@ -65,14 +65,14 @@ public class BoardServiceTests {
 
         Mockito.when(mockBoardRepository.findAll()).thenReturn(list);
 
-        Assertions.assertEquals(boardService.getBoardList().toString(), dtoList.toString());
+        Assertions.assertEquals(dtoList.toString(), boardService.getBoardList().toString());
     }
 
     @Test
     public void testInsertBoardReturnValidBoardEntity() {
         Mockito.when(mockBoardRepository.save(any())).thenReturn(validBoardEntity);
 
-        Assertions.assertEquals(boardService.insertBoard(validBoardDTO), validBoardEntity);
+        Assertions.assertEquals(validBoardEntity, boardService.insertBoard(validBoardDTO));
     }
 
     @Test
