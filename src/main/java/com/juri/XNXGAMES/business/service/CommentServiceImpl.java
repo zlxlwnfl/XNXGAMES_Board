@@ -45,7 +45,7 @@ public class CommentServiceImpl implements CommentService {
 			commentRepository.updateById(commentId, content);
 		}
 		else {
-			throw new CommentException(HttpStatus.BAD_REQUEST, "commentId not exist");
+			throw new CommentException(HttpStatus.BAD_REQUEST, "comment not exist");
 		}
 	}
 
@@ -73,7 +73,12 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public void deleteComment(final long commentId) {
-		commentRepository.deleteById(commentId);
+		if(commentRepository.existsByCommentId(commentId)) {
+			commentRepository.deleteById(commentId);
+		}
+		else {
+			throw new CommentException(HttpStatus.BAD_REQUEST, "comment not exist");
+		}
 	}
 
 }

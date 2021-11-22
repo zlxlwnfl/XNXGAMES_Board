@@ -29,7 +29,7 @@ public class CommentController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	@GetMapping("/boards/{boardId}/posts/{postId}/comments")
+	@GetMapping("/boards/{boardId}/posts/{postId}/comments/list")
 	public ResponseEntity<List<CommentGetListDTO>> getCommentList(@PathVariable long postId) {
 		return new ResponseEntity<>(commentService.getCommentList(postId), HttpStatus.OK);
 	}

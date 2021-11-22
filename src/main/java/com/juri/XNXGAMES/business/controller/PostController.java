@@ -27,9 +27,12 @@ public class PostController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	@GetMapping("/boards/{boardId}/posts")
-	public ResponseEntity<List<PostGetListDTO>> getPostList(@PathVariable long boardId, @RequestBody BoardCriteriaDTO boardCriDTO) {
-		return new ResponseEntity<>(postService.getPostList(boardId, boardCriDTO), HttpStatus.OK);
+	@GetMapping("/boards/{boardId}/posts/list")
+	public ResponseEntity<List<PostGetListDTO>> getPostList(
+			@PathVariable long boardId,
+			@RequestParam int currentPageNum,
+			@RequestParam int amountData) {
+		return new ResponseEntity<>(postService.getPostList(boardId, new BoardCriteriaDTO(currentPageNum, amountData)), HttpStatus.OK);
 	}
 	
 	@GetMapping("/boards/{boardId}/posts/{postId}")

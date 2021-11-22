@@ -66,7 +66,7 @@ public class PostServiceImpl implements PostService {
 			postRepository.updateById(postId, title, content);
 		}
 		else {
-			throw new PostException(HttpStatus.BAD_REQUEST, "postId not exist");
+			throw new PostException(HttpStatus.BAD_REQUEST, "post not exist");
 		}
 	}
 
@@ -130,7 +130,12 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public void deletePost(final long postId) {
-		postRepository.deleteById(postId);
+		if(postRepository.existsByPostId(postId)) {
+			postRepository.deleteById(postId);
+		}
+		else {
+			throw new PostException(HttpStatus.NOT_FOUND, "post not exist");
+		}
 
 		try {
 			eventDispatcher.boardToMemberPostSend(

@@ -21,8 +21,9 @@ public class BoardServiceImpl implements BoardService {
 	private final BoardRepository boardRepository;
 
 	@Override
-	public Long getBoard(@NonNull final String type, @NonNull final String subType) {
-		Optional<BoardEntity> boardEntityOptional = boardRepository.findByTypeAndSubType(type, subType);
+	public Long getBoard(@NonNull final BoardDTO boardDTO) {
+		Optional<BoardEntity> boardEntityOptional =
+				boardRepository.findByTypeAndSubType(boardDTO.getBoardType(), boardDTO.getBoardSubType());
 
 		if(boardEntityOptional.isPresent()) {
 			return boardEntityOptional.get().getId();
@@ -75,13 +76,18 @@ public class BoardServiceImpl implements BoardService {
 			boardRepository.updateById(boardId, type, subType);
 		}
 		else {
-			throw new BoardException(HttpStatus.BAD_REQUEST, "boardId not exist");
+			throw new BoardException(HttpStatus.BAD_REQUEST, "board not exist");
 		}
 	}
 
 	@Override
 	public void deleteBoard(final long boardId) {
-		boardRepository.deleteById(boardId);
+		if(boardRepository.existsByBoardId(boardId)) {
+			boardRepository.deleteById(boardId);
+		}
+		else {
+			throw new BoardException(HttpStatus.BAD_REQUEST, "board not exist");
+		}
 	}
 
 }

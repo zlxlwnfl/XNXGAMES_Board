@@ -17,17 +17,14 @@ public class BoardController {
 
     private final BoardService boardService;
 
-    @GetMapping("/boards")
+    @GetMapping("/boards/list")
     public ResponseEntity<List<BoardGetListDTO>> getBoardList() {
         return new ResponseEntity<>(boardService.getBoardList(), HttpStatus.OK);
     }
 
     @GetMapping("/boards")
-    public ResponseEntity<Long> getBoardId(@RequestBody BoardDTO boardDTO) {
-        return new ResponseEntity<>(boardService.getBoard(
-                boardDTO.getBoardType(),
-                boardDTO.getBoardSubType()
-        ), HttpStatus.OK);
+    public ResponseEntity<Long> getBoardId(@RequestParam String boardType, @RequestParam String boardSubType) {
+        return new ResponseEntity<>(boardService.getBoard(new BoardDTO(boardType, boardSubType)), HttpStatus.OK);
     }
 
     @PostMapping("/boards")

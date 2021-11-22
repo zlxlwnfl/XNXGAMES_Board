@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface BoardService {
 
-	Long getBoard(String type, String subType);
+	Long getBoard(BoardDTO boardDTO);
 	List<BoardGetListDTO> getBoardList();
 	BoardEntity insertBoard(BoardDTO boardDTO);
 	void modifyBoard(long boardId, BoardDTO boardDTO);
