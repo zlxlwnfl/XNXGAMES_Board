@@ -34,7 +34,7 @@ public class BoardControllerTests {
     private static final String SUB_TYPE = "subType";
 
     private static final BoardDTO validBoardDTO = new BoardDTO(TYPE, SUB_TYPE);
-    private static final BoardEntity validBoardEntity = new BoardEntity(ID, TYPE, SUB_TYPE);
+    private static final BoardEntity validBoardEntity = new BoardEntity();
 
     @Autowired
     MockMvc mockMvc;
@@ -113,7 +113,7 @@ public class BoardControllerTests {
 
     @Test
     public void testModifyBoardReturn5xx() throws Exception {
-        Mockito.doThrow(RuntimeException.class).when(mockBoardService).modifyBoard(anyLong(), any(BoardDTO.class));
+        Mockito.doThrow(RuntimeException.class).when(mockBoardService).modifyBoard(anyLong(), any());
 
         mockMvc.perform(MockMvcRequestBuilders.put("/boards/{boardId}", ID)
                         .contentType(MediaType.APPLICATION_JSON)
