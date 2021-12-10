@@ -1,25 +1,12 @@
 package com.juri.XNXGAMES.business.exception;
 
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
+import lombok.RequiredArgsConstructor;
 
 @Getter
-public class CustomException  extends RuntimeException{
+@RequiredArgsConstructor
+public class CustomException  extends RuntimeException {
 
-    private final HttpStatus httpStatus;
+    private final ErrorCode errorCode;
 
-    public CustomException(HttpStatus httpStatus, String message) {
-        super(message);
-        this.httpStatus = httpStatus;
-    }
-
-    public CustomException(HttpStatus httpStatus, String message, Throwable cause) {
-        super(message, cause);
-        this.httpStatus = httpStatus;
-    }
-
-    public CustomException(HttpStatus httpStatus, Throwable cause) {
-        super(cause);
-        this.httpStatus = httpStatus;
-    }
 }

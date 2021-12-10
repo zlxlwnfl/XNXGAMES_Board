@@ -2,6 +2,7 @@ package com.juri.XNXGAMES.business.service;
 
 import com.juri.XNXGAMES.business.dto.*;
 import com.juri.XNXGAMES.business.entity.PostEntity;
+import com.juri.XNXGAMES.business.exception.ErrorCode;
 import com.juri.XNXGAMES.business.exception.PostException;
 import com.juri.XNXGAMES.business.message.BoardToMemberPostMessage;
 import com.juri.XNXGAMES.business.repository.PostRepository;
@@ -9,7 +10,6 @@ import io.github.resilience4j.retry.MaxRetriesExceededException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
@@ -41,7 +41,7 @@ public class PostServiceImpl implements PostService {
 			savedPost = postRepository.save(post);
 		}
 		catch(IllegalArgumentException e) {
-			throw new PostException(HttpStatus.INTERNAL_SERVER_ERROR, "server can't save");
+			throw new PostException(ErrorCode.SERVER_CANNOT_SAVE);
 		}
 
 		try {
@@ -51,7 +51,7 @@ public class PostServiceImpl implements PostService {
 					));
 		}
 		catch(MaxRetriesExceededException e) {
-			throw new PostException(HttpStatus.INTERNAL_SERVER_ERROR, "server can't send message to message queue");
+			throw new PostException(ErrorCode.SERVER_CANNOT_SEND_MESSAGE);
 		}
 
 		return savedPost;
@@ -66,7 +66,7 @@ public class PostServiceImpl implements PostService {
 			postRepository.updateById(postId, title, content);
 		}
 		else {
-			throw new PostException(HttpStatus.BAD_REQUEST, "post not exist");
+			throw new PostException(ErrorCode.POST_NOT_EXIST);
 		}
 	}
 
@@ -107,7 +107,7 @@ public class PostServiceImpl implements PostService {
 			postEntity = postEntityOptional.get();
 		}
 		else {
-			throw new PostException(HttpStatus.NOT_FOUND, "post not exist");
+			throw new PostException(ErrorCode.POST_NOT_EXIST);
 		}
 
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -134,7 +134,7 @@ public class PostServiceImpl implements PostService {
 			postRepository.deleteById(postId);
 		}
 		else {
-			throw new PostException(HttpStatus.NOT_FOUND, "post not exist");
+			throw new PostException(ErrorCode.POST_NOT_EXIST);
 		}
 
 		try {
@@ -144,7 +144,7 @@ public class PostServiceImpl implements PostService {
 					));
 		}
 		catch(MaxRetriesExceededException e) {
-			throw new PostException(HttpStatus.INTERNAL_SERVER_ERROR, "server can't send message to message queue");
+			throw new PostException(ErrorCode.SERVER_CANNOT_SEND_MESSAGE);
 		}
 	}
 

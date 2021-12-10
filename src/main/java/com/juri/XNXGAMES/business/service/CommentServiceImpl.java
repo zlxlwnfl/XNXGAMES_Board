@@ -5,9 +5,9 @@ import com.juri.XNXGAMES.business.dto.CommentPostDTO;
 import com.juri.XNXGAMES.business.dto.CommentPutDTO;
 import com.juri.XNXGAMES.business.entity.CommentEntity;
 import com.juri.XNXGAMES.business.exception.CommentException;
+import com.juri.XNXGAMES.business.exception.ErrorCode;
 import com.juri.XNXGAMES.business.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +33,7 @@ public class CommentServiceImpl implements CommentService {
 			return commentRepository.save(comment);
 		}
 		catch(IllegalArgumentException e) {
-			throw new CommentException(HttpStatus.INTERNAL_SERVER_ERROR, "server can't save");
+			throw new CommentException(ErrorCode.SERVER_CANNOT_SAVE);
 		}
 	}
 	
@@ -45,7 +45,7 @@ public class CommentServiceImpl implements CommentService {
 			commentRepository.updateById(commentId, content);
 		}
 		else {
-			throw new CommentException(HttpStatus.BAD_REQUEST, "comment not exist");
+			throw new CommentException(ErrorCode.COMMENT_NOT_EXIST);
 		}
 	}
 
@@ -77,7 +77,7 @@ public class CommentServiceImpl implements CommentService {
 			commentRepository.deleteById(commentId);
 		}
 		else {
-			throw new CommentException(HttpStatus.BAD_REQUEST, "comment not exist");
+			throw new CommentException(ErrorCode.COMMENT_NOT_EXIST);
 		}
 	}
 

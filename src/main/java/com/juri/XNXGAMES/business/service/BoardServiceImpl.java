@@ -4,9 +4,9 @@ import com.juri.XNXGAMES.business.dto.BoardDTO;
 import com.juri.XNXGAMES.business.dto.BoardGetListDTO;
 import com.juri.XNXGAMES.business.entity.BoardEntity;
 import com.juri.XNXGAMES.business.exception.BoardException;
+import com.juri.XNXGAMES.business.exception.ErrorCode;
 import com.juri.XNXGAMES.business.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +29,7 @@ public class BoardServiceImpl implements BoardService {
 			return boardEntityOptional.get().getBoardId();
 		}
 		else {
-			throw new BoardException(HttpStatus.NOT_FOUND, "board not exist");
+			throw new BoardException(ErrorCode.BOARD_NOT_EXIST);
 		}
 	}
 
@@ -63,7 +63,7 @@ public class BoardServiceImpl implements BoardService {
 			return boardRepository.save(board);
 		}
 		catch(IllegalArgumentException e) {
-			throw new BoardException(HttpStatus.INTERNAL_SERVER_ERROR, "server can't save");
+			throw new BoardException(ErrorCode.SERVER_CANNOT_SAVE);
 		}
 	}
 
@@ -76,7 +76,7 @@ public class BoardServiceImpl implements BoardService {
 			boardRepository.updateById(boardId, type, subType);
 		}
 		else {
-			throw new BoardException(HttpStatus.BAD_REQUEST, "board not exist");
+			throw new BoardException(ErrorCode.BOARD_NOT_EXIST);
 		}
 	}
 
@@ -86,7 +86,7 @@ public class BoardServiceImpl implements BoardService {
 			boardRepository.deleteById(boardId);
 		}
 		else {
-			throw new BoardException(HttpStatus.BAD_REQUEST, "board not exist");
+			throw new BoardException(ErrorCode.BOARD_NOT_EXIST);
 		}
 	}
 
