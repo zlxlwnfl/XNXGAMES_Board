@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -28,12 +29,12 @@ public class BoardController {
     }
 
     @PostMapping("/boards")
-    public ResponseEntity<BoardEntity> insertBoard(@RequestBody BoardRequestDTO boardRequestDTO) {
+    public ResponseEntity<BoardEntity> insertBoard(@Valid @RequestBody BoardRequestDTO boardRequestDTO) {
         return new ResponseEntity<>(boardService.insertBoard(boardRequestDTO), HttpStatus.CREATED);
     }
 
     @PutMapping("/boards/{boardId}")
-    public ResponseEntity<Void> updateBoard(@PathVariable long boardId, @RequestBody BoardRequestDTO boardRequestDTO) {
+    public ResponseEntity<Void> updateBoard(@PathVariable long boardId, @Valid @RequestBody BoardRequestDTO boardRequestDTO) {
         boardService.updateBoard(boardId, boardRequestDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
