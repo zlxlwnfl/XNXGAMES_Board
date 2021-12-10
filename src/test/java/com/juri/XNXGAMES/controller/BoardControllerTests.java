@@ -1,8 +1,8 @@
 package com.juri.XNXGAMES.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.juri.XNXGAMES.business.dto.BoardRequestDTO;
 import com.juri.XNXGAMES.business.dto.BoardGetListResponseDTO;
+import com.juri.XNXGAMES.business.dto.BoardRequestDTO;
 import com.juri.XNXGAMES.business.entity.BoardEntity;
 import com.juri.XNXGAMES.business.service.BoardService;
 import com.juri.XNXGAMES.config.ControllerTestConfiguration;
@@ -34,7 +34,7 @@ public class BoardControllerTests {
     private static final String SUB_TYPE = "subType";
 
     private static final BoardRequestDTO VALID_BOARD_REQUEST_DTO = new BoardRequestDTO(TYPE, SUB_TYPE);
-    private static final BoardEntity validBoardEntity = new BoardEntity();
+    private static final BoardEntity VALID_BOARD_ENTITY = new BoardEntity();
 
     @Autowired
     MockMvc mockMvc;
@@ -84,13 +84,13 @@ public class BoardControllerTests {
 
     @Test
     public void testInsertBoardReturnCreated() throws Exception {
-        Mockito.when(mockBoardService.insertBoard(any())).thenReturn(validBoardEntity);
+        Mockito.when(mockBoardService.insertBoard(any())).thenReturn(VALID_BOARD_ENTITY);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/boards")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(VALID_BOARD_REQUEST_DTO)))
                 .andExpect(status().isCreated())
-                .andExpect(content().json(objectMapper.writeValueAsString(validBoardEntity)));
+                .andExpect(content().json(objectMapper.writeValueAsString(VALID_BOARD_ENTITY)));
     }
 
     @Test

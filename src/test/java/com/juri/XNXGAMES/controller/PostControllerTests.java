@@ -1,8 +1,8 @@
 package com.juri.XNXGAMES.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.juri.XNXGAMES.business.dto.PostGetResponseDTO;
 import com.juri.XNXGAMES.business.dto.PostGetListResponseDTO;
+import com.juri.XNXGAMES.business.dto.PostGetResponseDTO;
 import com.juri.XNXGAMES.business.dto.PostPostRequestDTO;
 import com.juri.XNXGAMES.business.dto.PostPutRequestDTO;
 import com.juri.XNXGAMES.business.entity.PostEntity;
@@ -36,7 +36,7 @@ public class PostControllerTests {
     private static final PostGetResponseDTO VALID_POST_GET_RESPONSE_DTO = new PostGetResponseDTO(ID, "", "", 0, "", "", "", 0, 0, new ArrayList<>());
     private static final PostPutRequestDTO VALID_POST_PUT_REQUEST_DTO = new PostPutRequestDTO("", "", "", "", new ArrayList<>());
     private static final PostPostRequestDTO VALID_POST_POST_REQUEST_DTO = new PostPostRequestDTO(ID, "", "", "", "", new ArrayList<>());
-    private static final PostEntity validPostEntity = new PostEntity();
+    private static final PostEntity VALID_POST_ENTITY = new PostEntity();
 
     @Autowired
     MockMvc mockMvc;
@@ -46,13 +46,13 @@ public class PostControllerTests {
 
     @Test
     public void testInsertPostReturnCreated() throws Exception {
-        Mockito.when(mockPostService.insertPost(anyLong(), any())).thenReturn(validPostEntity);
+        Mockito.when(mockPostService.insertPost(anyLong(), any())).thenReturn(VALID_POST_ENTITY);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/boards/{boardId}/posts", ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(VALID_POST_POST_REQUEST_DTO)))
                 .andExpect(status().isCreated())
-                .andExpect(content().json(objectMapper.writeValueAsString(validPostEntity)));
+                .andExpect(content().json(objectMapper.writeValueAsString(VALID_POST_ENTITY)));
     }
 
     @Test
