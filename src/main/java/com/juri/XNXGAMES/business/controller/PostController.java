@@ -23,7 +23,7 @@ public class PostController {
 
 	@PutMapping("/boards/{boardId}/posts/{postId}")
 	public ResponseEntity<Void> updatePost(@PathVariable long postId, @RequestBody PostPutRequestDTO postPutRequestDTO) {
-		postService.modifyPost(postId, postPutRequestDTO);
+		postService.updatePost(postId, postPutRequestDTO);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	

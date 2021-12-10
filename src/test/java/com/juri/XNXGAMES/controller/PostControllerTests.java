@@ -75,7 +75,7 @@ public class PostControllerTests {
 
     @Test
     public void testUpdatePostReturn5xx() throws Exception {
-        Mockito.doThrow(RuntimeException.class).when(mockPostService).modifyPost(anyLong(), any());
+        Mockito.doThrow(RuntimeException.class).when(mockPostService).updatePost(anyLong(), any());
 
         mockMvc.perform(MockMvcRequestBuilders.put("/boards/{boardId}/posts/{postId}", ID, ID)
                         .contentType(MediaType.APPLICATION_JSON)

@@ -1,7 +1,7 @@
 package com.juri.XNXGAMES.business.service;
 
-import com.juri.XNXGAMES.business.dto.BoardRequestDTO;
 import com.juri.XNXGAMES.business.dto.BoardGetListResponseDTO;
+import com.juri.XNXGAMES.business.dto.BoardRequestDTO;
 import com.juri.XNXGAMES.business.entity.BoardEntity;
 import com.juri.XNXGAMES.business.exception.BoardException;
 import com.juri.XNXGAMES.business.exception.ErrorCode;
@@ -68,7 +68,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void modifyBoard(final long boardId, @NonNull final BoardRequestDTO boardRequestDTO) {
+	public void updateBoard(final long boardId, @NonNull final BoardRequestDTO boardRequestDTO) {
 		String type = boardRequestDTO.getBoardType();
 		String subType = boardRequestDTO.getBoardSubType();
 

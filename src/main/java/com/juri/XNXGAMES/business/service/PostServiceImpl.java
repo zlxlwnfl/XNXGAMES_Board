@@ -58,7 +58,7 @@ public class PostServiceImpl implements PostService {
 	}
 	
 	@Override
-	public void modifyPost(final long postId, @NonNull final PostPutRequestDTO postPutRequestDTO) {
+	public void updatePost(final long postId, @NonNull final PostPutRequestDTO postPutRequestDTO) {
 		String title = postPutRequestDTO.getTitle();
 		String content = postPutRequestDTO.getContent();
 

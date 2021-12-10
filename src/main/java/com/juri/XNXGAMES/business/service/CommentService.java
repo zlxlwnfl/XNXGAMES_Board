@@ -10,7 +10,7 @@ import java.util.List;
 public interface CommentService {
 
 	CommentEntity insertComment(long postId, CommentPostRequestDTO commentPostRequestDTO);
-	void modifyComment(long commentId, CommentPutRequestDTO commentDTO);
+	void updateComment(long commentId, CommentPutRequestDTO commentDTO);
 	List<CommentGetListResponseDTO> getCommentList(long postId);
 	void deleteComment(long commentId);
 	

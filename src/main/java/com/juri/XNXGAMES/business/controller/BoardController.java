@@ -1,7 +1,7 @@
 package com.juri.XNXGAMES.business.controller;
 
-import com.juri.XNXGAMES.business.dto.BoardRequestDTO;
 import com.juri.XNXGAMES.business.dto.BoardGetListResponseDTO;
+import com.juri.XNXGAMES.business.dto.BoardRequestDTO;
 import com.juri.XNXGAMES.business.entity.BoardEntity;
 import com.juri.XNXGAMES.business.service.BoardService;
 import lombok.RequiredArgsConstructor;
@@ -33,8 +33,8 @@ public class BoardController {
     }
 
     @PutMapping("/boards/{boardId}")
-    public ResponseEntity<Void> modifyBoard(@PathVariable long boardId, @RequestBody BoardRequestDTO boardRequestDTO) {
-        boardService.modifyBoard(boardId, boardRequestDTO);
+    public ResponseEntity<Void> updateBoard(@PathVariable long boardId, @RequestBody BoardRequestDTO boardRequestDTO) {
+        boardService.updateBoard(boardId, boardRequestDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

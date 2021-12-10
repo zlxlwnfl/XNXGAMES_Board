@@ -104,7 +104,7 @@ public class BoardControllerTests {
     }
 
     @Test
-    public void testModifyBoardReturnOk() throws Exception {
+    public void testUpdateBoardReturnOk() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.put("/boards/{boardId}", ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(VALID_BOARD_REQUEST_DTO)))
@@ -112,8 +112,8 @@ public class BoardControllerTests {
     }
 
     @Test
-    public void testModifyBoardReturn5xx() throws Exception {
-        Mockito.doThrow(RuntimeException.class).when(mockBoardService).modifyBoard(anyLong(), any());
+    public void testUpdateBoardReturn5xx() throws Exception {
+        Mockito.doThrow(RuntimeException.class).when(mockBoardService).updateBoard(anyLong(), any());
 
         mockMvc.perform(MockMvcRequestBuilders.put("/boards/{boardId}", ID)
                         .contentType(MediaType.APPLICATION_JSON)

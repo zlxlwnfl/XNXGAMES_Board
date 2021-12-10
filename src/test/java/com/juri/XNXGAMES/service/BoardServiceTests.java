@@ -83,17 +83,17 @@ public class BoardServiceTests {
     }
 
     @Test
-    public void testModifyBoardSuccess() {
+    public void testUpdateBoardSuccess() {
         Mockito.when(mockBoardRepository.existsByBoardId(ID)).thenReturn(true);
 
-        Assertions.assertDoesNotThrow(() -> boardService.modifyBoard(ID, VALID_BOARD_REQUEST_DTO));
+        Assertions.assertDoesNotThrow(() -> boardService.updateBoard(ID, VALID_BOARD_REQUEST_DTO));
     }
 
     @Test
-    public void testModifyBoardThrowBoardException() {
+    public void testUpdateBoardThrowBoardException() {
         Mockito.when(mockBoardRepository.existsByBoardId(ID)).thenReturn(false);
 
-        Assertions.assertThrows(BoardException.class, () -> boardService.modifyBoard(ID, VALID_BOARD_REQUEST_DTO));
+        Assertions.assertThrows(BoardException.class, () -> boardService.updateBoard(ID, VALID_BOARD_REQUEST_DTO));
     }
 
     @Test

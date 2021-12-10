@@ -38,7 +38,7 @@ public class CommentServiceImpl implements CommentService {
 	}
 	
 	@Override
-	public void modifyComment(final long commentId, @NonNull final CommentPutRequestDTO commentPutRequestDTO) {
+	public void updateComment(final long commentId, @NonNull final CommentPutRequestDTO commentPutRequestDTO) {
 		String content = commentPutRequestDTO.getContent();
 
 		if(commentRepository.existsByCommentId(commentId)) {
