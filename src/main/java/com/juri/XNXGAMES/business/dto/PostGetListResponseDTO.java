@@ -1,26 +1,28 @@
 package com.juri.XNXGAMES.business.dto;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.springframework.lang.NonNull;
 
-import java.util.List;
-
 @Getter
 @ToString
 @RequiredArgsConstructor
-public class PostPutDTO {
+@Builder
+public class PostGetListResponseDTO {
 
-	@NonNull
-	private final String title;
-	@NonNull
-	private final String content;
-	@NonNull
-	private final String writerId;
+	private final long postId;
 	@NonNull
 	private final String postType;
 	@NonNull
-	private final List<String> gameTagList;
+	private final String writerId;
+	private final int commentCount;
+	@NonNull
+	private final String regdate;
+	@NonNull
+	private final String title;
+	private final int hits;
+	private final int heartCount;
 	
 }

@@ -1,8 +1,8 @@
 package com.juri.XNXGAMES.business.controller;
 
-import com.juri.XNXGAMES.business.dto.CommentGetListDTO;
-import com.juri.XNXGAMES.business.dto.CommentPostDTO;
-import com.juri.XNXGAMES.business.dto.CommentPutDTO;
+import com.juri.XNXGAMES.business.dto.CommentGetListResponseDTO;
+import com.juri.XNXGAMES.business.dto.CommentPostRequestDTO;
+import com.juri.XNXGAMES.business.dto.CommentPutRequestDTO;
 import com.juri.XNXGAMES.business.entity.CommentEntity;
 import com.juri.XNXGAMES.business.service.CommentService;
 import lombok.RequiredArgsConstructor;
@@ -19,18 +19,18 @@ public class CommentController {
 	private final CommentService commentService;
 	
 	@PostMapping("/boards/{boardId}/posts/{postId}/comments")
-	public ResponseEntity<CommentEntity> insertComment(@PathVariable long postId, @RequestBody CommentPostDTO commentPostDTO) {
-		return new ResponseEntity<>(commentService.insertComment(postId, commentPostDTO), HttpStatus.CREATED);
+	public ResponseEntity<CommentEntity> insertComment(@PathVariable long postId, @RequestBody CommentPostRequestDTO commentPostRequestDTO) {
+		return new ResponseEntity<>(commentService.insertComment(postId, commentPostRequestDTO), HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/boards/{boardId}/posts/{postId}/comments/{commentId}")
-	public ResponseEntity<Void> modifyComment(@PathVariable long commentId, @RequestBody CommentPutDTO commentPutDTO) {
-		commentService.modifyComment(commentId, commentPutDTO);
+	public ResponseEntity<Void> modifyComment(@PathVariable long commentId, @RequestBody CommentPutRequestDTO commentPutRequestDTO) {
+		commentService.modifyComment(commentId, commentPutRequestDTO);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@GetMapping("/boards/{boardId}/posts/{postId}/comments/list")
-	public ResponseEntity<List<CommentGetListDTO>> getCommentList(@PathVariable long postId) {
+	public ResponseEntity<List<CommentGetListResponseDTO>> getCommentList(@PathVariable long postId) {
 		return new ResponseEntity<>(commentService.getCommentList(postId), HttpStatus.OK);
 	}
 	

@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @ToString
 @RequiredArgsConstructor
-public class PostPostDTO {
+public class PostPostRequestDTO {
 
 	private final long postId;
 	@NonNull

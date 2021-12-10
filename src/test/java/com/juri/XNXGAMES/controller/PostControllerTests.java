@@ -1,10 +1,10 @@
 package com.juri.XNXGAMES.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.juri.XNXGAMES.business.dto.PostGetDTO;
-import com.juri.XNXGAMES.business.dto.PostGetListDTO;
-import com.juri.XNXGAMES.business.dto.PostPostDTO;
-import com.juri.XNXGAMES.business.dto.PostPutDTO;
+import com.juri.XNXGAMES.business.dto.PostGetResponseDTO;
+import com.juri.XNXGAMES.business.dto.PostGetListResponseDTO;
+import com.juri.XNXGAMES.business.dto.PostPostRequestDTO;
+import com.juri.XNXGAMES.business.dto.PostPutRequestDTO;
 import com.juri.XNXGAMES.business.entity.PostEntity;
 import com.juri.XNXGAMES.business.service.PostService;
 import com.juri.XNXGAMES.config.ControllerTestConfiguration;
@@ -33,9 +33,9 @@ public class PostControllerTests {
 
     private static final long ID = 1L;
 
-    private static final PostGetDTO validPostGetDTO = new PostGetDTO(ID, "", "", 0, "", "", "", 0, 0, new ArrayList<>());
-    private static final PostPutDTO validPostPutDTO = new PostPutDTO("", "", "", "", new ArrayList<>());
-    private static final PostPostDTO validPostPostDTO = new PostPostDTO(ID, "", "", "", "", new ArrayList<>());
+    private static final PostGetResponseDTO VALID_POST_GET_RESPONSE_DTO = new PostGetResponseDTO(ID, "", "", 0, "", "", "", 0, 0, new ArrayList<>());
+    private static final PostPutRequestDTO VALID_POST_PUT_REQUEST_DTO = new PostPutRequestDTO("", "", "", "", new ArrayList<>());
+    private static final PostPostRequestDTO VALID_POST_POST_REQUEST_DTO = new PostPostRequestDTO(ID, "", "", "", "", new ArrayList<>());
     private static final PostEntity validPostEntity = new PostEntity();
 
     @Autowired
@@ -50,7 +50,7 @@ public class PostControllerTests {
 
         mockMvc.perform(MockMvcRequestBuilders.post("/boards/{boardId}/posts", ID)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(validPostPostDTO)))
+                        .content(objectMapper.writeValueAsString(VALID_POST_POST_REQUEST_DTO)))
                 .andExpect(status().isCreated())
                 .andExpect(content().json(objectMapper.writeValueAsString(validPostEntity)));
     }
@@ -61,7 +61,7 @@ public class PostControllerTests {
 
         mockMvc.perform(MockMvcRequestBuilders.post("/boards/{boardId}/posts", ID)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(validPostPostDTO)))
+                        .content(objectMapper.writeValueAsString(VALID_POST_POST_REQUEST_DTO)))
                 .andExpect(status().is5xxServerError());
     }
 
@@ -69,7 +69,7 @@ public class PostControllerTests {
     public void testUpdatePostReturnOk() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.put("/boards/{boardId}/posts/{postId}", ID, ID)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(validPostPutDTO)))
+                        .content(objectMapper.writeValueAsString(VALID_POST_PUT_REQUEST_DTO)))
                 .andExpect(status().isOk());
     }
 
@@ -79,12 +79,12 @@ public class PostControllerTests {
 
         mockMvc.perform(MockMvcRequestBuilders.put("/boards/{boardId}/posts/{postId}", ID, ID)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(validPostPutDTO)))
+                        .content(objectMapper.writeValueAsString(VALID_POST_PUT_REQUEST_DTO)))
                 .andExpect(status().is5xxServerError());
     }
     @Test
     public void testGetPostListReturnOk() throws Exception {
-        List<PostGetListDTO> list = new ArrayList<>();
+        List<PostGetListResponseDTO> list = new ArrayList<>();
 
         Mockito.when(mockPostService.getPostList(anyLong(), any())).thenReturn(list);
 
@@ -106,11 +106,11 @@ public class PostControllerTests {
     }
     @Test
     public void testGetPostReturnOk() throws Exception {
-        Mockito.when(mockPostService.getPost(anyLong())).thenReturn(validPostGetDTO);
+        Mockito.when(mockPostService.getPost(anyLong())).thenReturn(VALID_POST_GET_RESPONSE_DTO);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/boards/{boardId}/posts/{postId}", ID, ID))
                 .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(validPostGetDTO)));
+                .andExpect(content().json(objectMapper.writeValueAsString(VALID_POST_GET_RESPONSE_DTO)));
     }
 
     @Test

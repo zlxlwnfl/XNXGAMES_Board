@@ -6,11 +6,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.springframework.lang.NonNull;
 
+import java.util.List;
+
 @Getter
 @ToString
 @RequiredArgsConstructor
 @Builder
-public class PostGetListDTO {
+public class PostGetResponseDTO {
 
 	private final long postId;
 	@NonNull
@@ -22,7 +24,11 @@ public class PostGetListDTO {
 	private final String regdate;
 	@NonNull
 	private final String title;
+	@NonNull
+	private final String content;
 	private final int hits;
 	private final int heartCount;
+	@NonNull
+	private final List<String> gameTagList;
 	
 }

@@ -10,12 +10,15 @@ import org.springframework.lang.NonNull;
 @ToString
 @RequiredArgsConstructor
 @Builder
-public class BoardGetListDTO {
+public class CommentGetListResponseDTO {
 
-    private final long boardId;
-    @NonNull
-    private final String boardType;
-    @NonNull
-    private final String boardSubType;
-
+	private final long commentId;
+	@NonNull
+	private final String writerId;
+	@NonNull
+	private final String regdate;
+	@NonNull
+	private final String content;
+	private final int heartCount;
+	
 }

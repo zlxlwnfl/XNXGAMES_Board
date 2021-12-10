@@ -8,7 +8,7 @@ import org.springframework.lang.NonNull;
 @Getter
 @ToString
 @RequiredArgsConstructor
-public class CommentPostDTO {
+public class CommentPostRequestDTO {
 
 	@NonNull
 	private final String writerId;

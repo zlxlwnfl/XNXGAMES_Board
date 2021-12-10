@@ -1,7 +1,7 @@
 package com.juri.XNXGAMES.business.service;
 
-import com.juri.XNXGAMES.business.dto.BoardDTO;
-import com.juri.XNXGAMES.business.dto.BoardGetListDTO;
+import com.juri.XNXGAMES.business.dto.BoardRequestDTO;
+import com.juri.XNXGAMES.business.dto.BoardGetListResponseDTO;
 import com.juri.XNXGAMES.business.entity.BoardEntity;
 import com.juri.XNXGAMES.business.exception.BoardException;
 import com.juri.XNXGAMES.business.exception.ErrorCode;
@@ -21,9 +21,9 @@ public class BoardServiceImpl implements BoardService {
 	private final BoardRepository boardRepository;
 
 	@Override
-	public Long getBoard(@NonNull final BoardDTO boardDTO) {
+	public Long getBoard(@NonNull final BoardRequestDTO boardRequestDTO) {
 		Optional<BoardEntity> boardEntityOptional =
-				boardRepository.findByTypeAndSubType(boardDTO.getBoardType(), boardDTO.getBoardSubType());
+				boardRepository.findByTypeAndSubType(boardRequestDTO.getBoardType(), boardRequestDTO.getBoardSubType());
 
 		if(boardEntityOptional.isPresent()) {
 			return boardEntityOptional.get().getBoardId();
@@ -34,13 +34,13 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<BoardGetListDTO> getBoardList() {
+	public List<BoardGetListResponseDTO> getBoardList() {
 		List<BoardEntity> list = boardRepository.findAll();
 
-		List<BoardGetListDTO> dtoList = new ArrayList<>();
+		List<BoardGetListResponseDTO> dtoList = new ArrayList<>();
 
 		for(BoardEntity board : list) {
-			BoardGetListDTO dto = BoardGetListDTO.builder()
+			BoardGetListResponseDTO dto = BoardGetListResponseDTO.builder()
 					.boardId(board.getBoardId())
 					.boardType(board.getType())
 					.boardSubType(board.getSubType())
@@ -53,10 +53,10 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public BoardEntity insertBoard(@NonNull final BoardDTO boardDTO) {
+	public BoardEntity insertBoard(@NonNull final BoardRequestDTO boardRequestDTO) {
 		BoardEntity board = BoardEntity.builder()
-				.type(boardDTO.getBoardType())
-				.subType(boardDTO.getBoardSubType())
+				.type(boardRequestDTO.getBoardType())
+				.subType(boardRequestDTO.getBoardSubType())
 				.build();
 
 		try {
@@ -68,9 +68,9 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void modifyBoard(final long boardId, @NonNull final BoardDTO boardDTO) {
-		String type = boardDTO.getBoardType();
-		String subType = boardDTO.getBoardSubType();
+	public void modifyBoard(final long boardId, @NonNull final BoardRequestDTO boardRequestDTO) {
+		String type = boardRequestDTO.getBoardType();
+		String subType = boardRequestDTO.getBoardSubType();
 
 		if(boardRepository.existsByBoardId(boardId)) {
 			boardRepository.updateById(boardId, type, subType);

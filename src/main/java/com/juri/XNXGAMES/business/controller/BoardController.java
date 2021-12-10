@@ -1,7 +1,7 @@
 package com.juri.XNXGAMES.business.controller;
 
-import com.juri.XNXGAMES.business.dto.BoardDTO;
-import com.juri.XNXGAMES.business.dto.BoardGetListDTO;
+import com.juri.XNXGAMES.business.dto.BoardRequestDTO;
+import com.juri.XNXGAMES.business.dto.BoardGetListResponseDTO;
 import com.juri.XNXGAMES.business.entity.BoardEntity;
 import com.juri.XNXGAMES.business.service.BoardService;
 import lombok.RequiredArgsConstructor;
@@ -18,23 +18,23 @@ public class BoardController {
     private final BoardService boardService;
 
     @GetMapping("/boards/list")
-    public ResponseEntity<List<BoardGetListDTO>> getBoardList() {
+    public ResponseEntity<List<BoardGetListResponseDTO>> getBoardList() {
         return new ResponseEntity<>(boardService.getBoardList(), HttpStatus.OK);
     }
 
     @GetMapping("/boards")
     public ResponseEntity<Long> getBoardId(@RequestParam String boardType, @RequestParam String boardSubType) {
-        return new ResponseEntity<>(boardService.getBoard(new BoardDTO(boardType, boardSubType)), HttpStatus.OK);
+        return new ResponseEntity<>(boardService.getBoard(new BoardRequestDTO(boardType, boardSubType)), HttpStatus.OK);
     }
 
     @PostMapping("/boards")
-    public ResponseEntity<BoardEntity> insertBoard(@RequestBody BoardDTO boardDTO) {
-        return new ResponseEntity<>(boardService.insertBoard(boardDTO), HttpStatus.CREATED);
+    public ResponseEntity<BoardEntity> insertBoard(@RequestBody BoardRequestDTO boardRequestDTO) {
+        return new ResponseEntity<>(boardService.insertBoard(boardRequestDTO), HttpStatus.CREATED);
     }
 
     @PutMapping("/boards/{boardId}")
-    public ResponseEntity<Void> modifyBoard(@PathVariable long boardId, @RequestBody BoardDTO boardDTO) {
-        boardService.modifyBoard(boardId, boardDTO);
+    public ResponseEntity<Void> modifyBoard(@PathVariable long boardId, @RequestBody BoardRequestDTO boardRequestDTO) {
+        boardService.modifyBoard(boardId, boardRequestDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

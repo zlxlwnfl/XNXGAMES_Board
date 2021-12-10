@@ -26,14 +26,14 @@ public class PostServiceImpl implements PostService {
 	private final EventDispatcher eventDispatcher;
 
 	@Override
-	public PostEntity insertPost(final long boardId, @NonNull final PostPostDTO postPostDTO) {
+	public PostEntity insertPost(final long boardId, @NonNull final PostPostRequestDTO postPostRequestDTO) {
 		PostEntity post = PostEntity.builder()
-				.type(postPostDTO.getPostType())
+				.type(postPostRequestDTO.getPostType())
 				.boardId(boardId)
-				.writerId(postPostDTO.getWriterId())
-				.title(postPostDTO.getTitle())
-				.content(postPostDTO.getContent())
-				.gameTagList(postPostDTO.getGameTagList())
+				.writerId(postPostRequestDTO.getWriterId())
+				.title(postPostRequestDTO.getTitle())
+				.content(postPostRequestDTO.getContent())
+				.gameTagList(postPostRequestDTO.getGameTagList())
 				.build();
 
 		PostEntity savedPost;
@@ -47,7 +47,7 @@ public class PostServiceImpl implements PostService {
 		try {
 			eventDispatcher.boardToMemberPostSend(
 					new BoardToMemberPostMessage(
-							"create", postPostDTO.getWriterId(), savedPost.getPostId()
+							"create", postPostRequestDTO.getWriterId(), savedPost.getPostId()
 					));
 		}
 		catch(MaxRetriesExceededException e) {
@@ -58,9 +58,9 @@ public class PostServiceImpl implements PostService {
 	}
 	
 	@Override
-	public void modifyPost(final long postId, @NonNull final PostPutDTO postPutDTO) {
-		String title = postPutDTO.getTitle();
-		String content = postPutDTO.getContent();
+	public void modifyPost(final long postId, @NonNull final PostPutRequestDTO postPutRequestDTO) {
+		String title = postPutRequestDTO.getTitle();
+		String content = postPutRequestDTO.getContent();
 
 		if(postRepository.existsByPostId(postId)) {
 			postRepository.updateById(postId, title, content);
@@ -71,17 +71,17 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public List<PostGetListDTO> getPostList(final long boardId, @NonNull final BoardCriteriaDTO boardCriDTO) {
+	public List<PostGetListResponseDTO> getPostList(final long boardId, @NonNull final BoardCriteriaDTO boardCriDTO) {
 		Pageable boardPaging = PageRequest.of(boardCriDTO.getCurrentPageNum() - 1,
 												boardCriDTO.getAmountData());
 		
 		List<PostEntity> list = postRepository.findByBoardIdOrderByRegdateDesc(boardId, boardPaging);
 		
-		List<PostGetListDTO> returnList = new ArrayList<>();
+		List<PostGetListResponseDTO> returnList = new ArrayList<>();
 		SimpleDateFormat format = new SimpleDateFormat("MM-dd");
 		
 		for(PostEntity p : list) {
-			PostGetListDTO dto = PostGetListDTO.builder()
+			PostGetListResponseDTO dto = PostGetListResponseDTO.builder()
 					.postId(p.getPostId())
 					.postType(p.getType())
 					.writerId(p.getWriterId())
@@ -99,7 +99,7 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public PostGetDTO getPost(final long postId) {
+	public PostGetResponseDTO getPost(final long postId) {
 		Optional<PostEntity> postEntityOptional = postRepository.findById(postId);
 
 		PostEntity postEntity;
@@ -112,7 +112,7 @@ public class PostServiceImpl implements PostService {
 
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		
-		PostGetDTO postGetDTO = PostGetDTO.builder()
+		PostGetResponseDTO postGetResponseDTO = PostGetResponseDTO.builder()
 				.postId(postEntity.getPostId())
 				.postType(postEntity.getType())
 				.writerId(postEntity.getWriterId())
@@ -125,7 +125,7 @@ public class PostServiceImpl implements PostService {
 				.gameTagList(postEntity.getGameTagList())
 				.build();
 		
-		return postGetDTO;
+		return postGetResponseDTO;
 	}
 
 	@Override

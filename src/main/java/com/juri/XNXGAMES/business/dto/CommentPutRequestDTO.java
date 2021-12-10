@@ -8,11 +8,9 @@ import org.springframework.lang.NonNull;
 @Getter
 @ToString
 @RequiredArgsConstructor
-public class BoardDTO {
+public class CommentPutRequestDTO {
 
 	@NonNull
-	private final String boardType;
-	@NonNull
-	private final String boardSubType;
+	private final String content;
 	
 }

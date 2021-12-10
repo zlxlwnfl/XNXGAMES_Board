@@ -1,8 +1,8 @@
 package com.juri.XNXGAMES.business.service;
 
-import com.juri.XNXGAMES.business.dto.CommentGetListDTO;
-import com.juri.XNXGAMES.business.dto.CommentPostDTO;
-import com.juri.XNXGAMES.business.dto.CommentPutDTO;
+import com.juri.XNXGAMES.business.dto.CommentGetListResponseDTO;
+import com.juri.XNXGAMES.business.dto.CommentPostRequestDTO;
+import com.juri.XNXGAMES.business.dto.CommentPutRequestDTO;
 import com.juri.XNXGAMES.business.entity.CommentEntity;
 import com.juri.XNXGAMES.business.exception.CommentException;
 import com.juri.XNXGAMES.business.exception.ErrorCode;
@@ -22,11 +22,11 @@ public class CommentServiceImpl implements CommentService {
 	private final CommentRepository commentRepository;
 
 	@Override
-	public CommentEntity insertComment(final long postId, @NonNull final CommentPostDTO commentPostDTO) {
+	public CommentEntity insertComment(final long postId, @NonNull final CommentPostRequestDTO commentPostRequestDTO) {
 		CommentEntity comment = CommentEntity.builder()
 				.postId(postId)
-				.writerId(commentPostDTO.getWriterId())
-				.content(commentPostDTO.getContent())
+				.writerId(commentPostRequestDTO.getWriterId())
+				.content(commentPostRequestDTO.getContent())
 				.build();
 
 		try {
@@ -38,8 +38,8 @@ public class CommentServiceImpl implements CommentService {
 	}
 	
 	@Override
-	public void modifyComment(final long commentId, @NonNull final CommentPutDTO commentPutDTO) {
-		String content = commentPutDTO.getContent();
+	public void modifyComment(final long commentId, @NonNull final CommentPutRequestDTO commentPutRequestDTO) {
+		String content = commentPutRequestDTO.getContent();
 
 		if(commentRepository.existsByCommentId(commentId)) {
 			commentRepository.updateById(commentId, content);
@@ -50,14 +50,14 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public List<CommentGetListDTO> getCommentList(final long postId) {
+	public List<CommentGetListResponseDTO> getCommentList(final long postId) {
 		List<CommentEntity> list = commentRepository.findByPostIdOrderByRegdateDesc(postId);
 		
-		List<CommentGetListDTO> returnList = new ArrayList<>();
+		List<CommentGetListResponseDTO> returnList = new ArrayList<>();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		
 		for(CommentEntity comment : list) {
-			CommentGetListDTO dto = CommentGetListDTO.builder()
+			CommentGetListResponseDTO dto = CommentGetListResponseDTO.builder()
 					.commentId(comment.getCommentId())
 					.writerId(comment.getWriterId())
 					.regdate(format.format(comment.getRegdate()))
