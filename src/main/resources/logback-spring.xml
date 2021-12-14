@@ -7,6 +7,7 @@
 
     <property name="FILE_LOG_PATTERN" value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%-5level] [%logger{36}:%L] ### %msg%n"/>
     <property name="CONSOLE_LOG_PATTERN" value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+    <property name="FLUENTD_LOG_PATTERN" value="[%date{HH:mm:ss.SSS} [%thread] %-5level %logger{15}#%line %message]"/>
 
     <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -16,26 +17,30 @@
         </encoder>
     </appender>
 
-    <appender name="Fluentd" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-	    <destination>fluentd:24224</destination>
-	    <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
-            <providers>
-                <pattern>
-                    <pattern>{"serviceID":"Board"}</pattern>
-                </pattern>
-                <mdc />
-                <timestamp />
-                <context />
-                <threadName />
-                <logLevel />
-                <message />
-                <loggerName />
-                <logstashMarkers />
-                <stackTrace />
-                <callerData />
-            </providers>
+    <appender name="Fluentd" class="ch.qos.logback.more.appenders.DataFluentAppender">
+        <!-- Tag for Fluentd. Farther information: http://docs.fluentd.org/articles/config-file -->
+        <tag>debug</tag>
+        <!-- [Optional] Label for Fluentd. Farther information: http://docs.fluentd.org/articles/config-file -->
+        <label>logback</label>
+
+        <!-- Host name/address and port number which Fluentd placed -->
+        <remoteHost>fluentd</remoteHost>
+        <port>24224</port>
+
+        <!-- [Optional] Configurations to customize Fluent-logger-java's behavior -->
+        <bufferCapacity>16777216</bufferCapacity> <!-- in bytes -->
+        <timeout>10000</timeout> <!-- in milliseconds -->
+
+        <!-- [Optional] Message encoder if you want to customize message -->
+        <encoder>
+            <pattern>
+                ${FLUENTD_LOG_PATTERN}
+            </pattern>
         </encoder>
-	</appender>
+
+        <!-- [Optional] Message field key name. Default: "message" -->
+        <messageFieldKeyName>msg</messageFieldKeyName>
+    </appender>
 	
 	<root>
 	    <level value="INFO"/>
