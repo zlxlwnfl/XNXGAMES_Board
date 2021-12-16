@@ -2,6 +2,7 @@ package com.juri.XNXGAMES.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.juri.XNXGAMES.business.dto.BoardGetListResponseDTO;
+import com.juri.XNXGAMES.business.dto.BoardPostResponseDTO;
 import com.juri.XNXGAMES.business.dto.BoardRequestDTO;
 import com.juri.XNXGAMES.business.entity.BoardEntity;
 import com.juri.XNXGAMES.business.service.BoardService;
@@ -34,7 +35,7 @@ public class BoardControllerTests {
     private static final String SUB_TYPE = "subType";
 
     private static final BoardRequestDTO VALID_BOARD_REQUEST_DTO = new BoardRequestDTO(TYPE, SUB_TYPE);
-    private static final BoardEntity VALID_BOARD_ENTITY = new BoardEntity();
+    private static final BoardEntity VALID_BOARD_ENTITY = new BoardEntity(ID, TYPE, SUB_TYPE);
 
     @Autowired
     MockMvc mockMvc;
@@ -90,7 +91,9 @@ public class BoardControllerTests {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(VALID_BOARD_REQUEST_DTO)))
                 .andExpect(status().isCreated())
-                .andExpect(content().json(objectMapper.writeValueAsString(VALID_BOARD_ENTITY)));
+                .andExpect(content().json(objectMapper.writeValueAsString(
+                        BoardPostResponseDTO.fromBoardEntity(VALID_BOARD_ENTITY)
+                )));
     }
 
     @Test

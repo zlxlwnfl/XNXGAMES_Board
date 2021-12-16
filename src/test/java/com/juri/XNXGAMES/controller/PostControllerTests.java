@@ -1,10 +1,7 @@
 package com.juri.XNXGAMES.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.juri.XNXGAMES.business.dto.PostGetListResponseDTO;
-import com.juri.XNXGAMES.business.dto.PostGetResponseDTO;
-import com.juri.XNXGAMES.business.dto.PostPostRequestDTO;
-import com.juri.XNXGAMES.business.dto.PostPutRequestDTO;
+import com.juri.XNXGAMES.business.dto.*;
 import com.juri.XNXGAMES.business.entity.PostEntity;
 import com.juri.XNXGAMES.business.service.PostService;
 import com.juri.XNXGAMES.config.ControllerTestConfiguration;
@@ -18,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -34,9 +32,9 @@ public class PostControllerTests {
     private static final long ID = 1L;
 
     private static final PostGetResponseDTO VALID_POST_GET_RESPONSE_DTO = new PostGetResponseDTO(ID, "", "", 0, "", "", "", 0, 0, new ArrayList<>());
-    private static final PostPutRequestDTO VALID_POST_PUT_REQUEST_DTO = new PostPutRequestDTO("", "", "", "", new ArrayList<>());
-    private static final PostPostRequestDTO VALID_POST_POST_REQUEST_DTO = new PostPostRequestDTO(ID, "", "", "", "", new ArrayList<>());
-    private static final PostEntity VALID_POST_ENTITY = new PostEntity();
+    private static final PostPutRequestDTO VALID_POST_PUT_REQUEST_DTO = new PostPutRequestDTO(".", ".", ".", ".", new ArrayList<>());
+    private static final PostPostRequestDTO VALID_POST_POST_REQUEST_DTO = new PostPostRequestDTO(ID, ".", ".", ".", ".", new ArrayList<>());
+    private static final PostEntity VALID_POST_ENTITY = new PostEntity(ID, "", ID, "", 0, new Date(), "", "", 0, 0, new ArrayList<>());
 
     @Autowired
     MockMvc mockMvc;
@@ -52,7 +50,9 @@ public class PostControllerTests {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(VALID_POST_POST_REQUEST_DTO)))
                 .andExpect(status().isCreated())
-                .andExpect(content().json(objectMapper.writeValueAsString(VALID_POST_ENTITY)));
+                .andExpect(content().json(objectMapper.writeValueAsString(
+                        PostPostResponseDTO.fromPostEntity(VALID_POST_ENTITY)
+                )));
     }
 
     @Test

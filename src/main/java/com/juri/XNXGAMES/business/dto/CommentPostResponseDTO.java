@@ -7,8 +7,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.springframework.lang.NonNull;
 
-import java.util.Date;
-
 @Getter
 @ToString
 @RequiredArgsConstructor
@@ -20,7 +18,7 @@ public class CommentPostResponseDTO {
     @NonNull
     private final String writerId;
     @NonNull
-    private final Date regdate;
+    private final String regdate;
     @NonNull
     private final String content;
     private final int heartCount;
@@ -30,7 +28,7 @@ public class CommentPostResponseDTO {
                 .commentId(commentEntity.getCommentId())
                 .postId(commentEntity.getPostId())
                 .writerId(commentEntity.getWriterId())
-                .regdate(commentEntity.getRegdate())
+                .regdate(commentEntity.getRegdate().toString())
                 .content(commentEntity.getContent())
                 .heartCount(commentEntity.getHeartCount())
                 .build();
