@@ -2,8 +2,8 @@ package com.juri.XNXGAMES.business.controller;
 
 import com.juri.XNXGAMES.business.dto.CommentGetListResponseDTO;
 import com.juri.XNXGAMES.business.dto.CommentPostRequestDTO;
+import com.juri.XNXGAMES.business.dto.CommentPostResponseDTO;
 import com.juri.XNXGAMES.business.dto.CommentPutRequestDTO;
-import com.juri.XNXGAMES.business.entity.CommentEntity;
 import com.juri.XNXGAMES.business.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,8 +20,11 @@ public class CommentController {
 	private final CommentService commentService;
 	
 	@PostMapping("/boards/{boardId}/posts/{postId}/comments")
-	public ResponseEntity<CommentEntity> insertComment(@PathVariable long postId, @Valid @RequestBody CommentPostRequestDTO commentPostRequestDTO) {
-		return new ResponseEntity<>(commentService.insertComment(postId, commentPostRequestDTO), HttpStatus.CREATED);
+	public ResponseEntity<CommentPostResponseDTO> insertComment(@PathVariable long postId, @Valid @RequestBody CommentPostRequestDTO commentPostRequestDTO) {
+		return new ResponseEntity<>(
+				CommentPostResponseDTO.fromCommentEntity(commentService.insertComment(postId, commentPostRequestDTO)),
+				HttpStatus.CREATED
+		);
 	}
 	
 	@PutMapping("/boards/{boardId}/posts/{postId}/comments/{commentId}")

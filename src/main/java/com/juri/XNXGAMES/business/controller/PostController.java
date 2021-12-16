@@ -1,7 +1,6 @@
 package com.juri.XNXGAMES.business.controller;
 
 import com.juri.XNXGAMES.business.dto.*;
-import com.juri.XNXGAMES.business.entity.PostEntity;
 import com.juri.XNXGAMES.business.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,8 +17,11 @@ public class PostController {
 	private final PostService postService;
 	
 	@PostMapping("/boards/{boardId}/posts")
-	public ResponseEntity<PostEntity> insertPost(@PathVariable long boardId, @Valid @RequestBody PostPostRequestDTO postPostRequestDTO) {
-		return new ResponseEntity<>(postService.insertPost(boardId, postPostRequestDTO), HttpStatus.CREATED);
+	public ResponseEntity<PostPostResponseDTO> insertPost(@PathVariable long boardId, @Valid @RequestBody PostPostRequestDTO postPostRequestDTO) {
+		return new ResponseEntity<>(
+				PostPostResponseDTO.fromPostEntity(postService.insertPost(boardId, postPostRequestDTO)),
+				HttpStatus.CREATED
+		);
 	}
 
 	@PutMapping("/boards/{boardId}/posts/{postId}")
