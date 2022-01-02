@@ -17,35 +17,9 @@
         </encoder>
     </appender>
 
-    <appender name="Fluentd" class="ch.qos.logback.more.appenders.DataFluentAppender">
-        <!-- Tag for Fluentd. Farther information: http://docs.fluentd.org/articles/config-file -->
-        <tag>debug</tag>
-        <!-- [Optional] Label for Fluentd. Farther information: http://docs.fluentd.org/articles/config-file -->
-        <label>logback</label>
-
-        <!-- Host name/address and port number which Fluentd placed -->
-        <remoteHost>fluentd</remoteHost>
-        <port>24224</port>
-
-        <!-- [Optional] Configurations to customize Fluent-logger-java's behavior -->
-        <bufferCapacity>16777216</bufferCapacity> <!-- in bytes -->
-        <timeout>10000</timeout> <!-- in milliseconds -->
-
-        <!-- [Optional] Message encoder if you want to customize message -->
-        <encoder>
-            <pattern>
-                ${FLUENTD_LOG_PATTERN}
-            </pattern>
-        </encoder>
-
-        <!-- [Optional] Message field key name. Default: "message" -->
-        <messageFieldKeyName>msg</messageFieldKeyName>
-    </appender>
-	
 	<root>
 	    <level value="INFO"/>
         <appender-ref ref="Console"/>
-	    <appender-ref ref="Fluentd"/>
 	</root>
 
 </configuration>
