@@ -1,7 +1,7 @@
 package com.juri.XNXGAMES.global.config;
 
-import com.juri.XNXGAMES.business.exception.CustomException;
-import com.juri.XNXGAMES.business.exception.ErrorResponse;
+import com.juri.XNXGAMES.global.exception.CustomException;
+import com.juri.XNXGAMES.global.exception.ErrorResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

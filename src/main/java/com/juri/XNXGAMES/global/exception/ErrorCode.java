@@ -1,4 +1,4 @@
-package com.juri.XNXGAMES.business.exception;
+package com.juri.XNXGAMES.global.exception;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
