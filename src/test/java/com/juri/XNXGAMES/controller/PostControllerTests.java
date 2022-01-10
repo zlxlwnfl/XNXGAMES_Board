@@ -1,8 +1,8 @@
 package com.juri.XNXGAMES.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.juri.XNXGAMES.business.dto.*;
-import com.juri.XNXGAMES.business.entity.PostEntity;
+import com.juri.XNXGAMES.business.dto.PostDTO;
+import com.juri.XNXGAMES.business.entity.Post;
 import com.juri.XNXGAMES.business.service.PostService;
 import com.juri.XNXGAMES.config.ControllerTestConfiguration;
 import org.junit.jupiter.api.Test;
@@ -31,10 +31,9 @@ public class PostControllerTests {
 
     private static final long ID = 1L;
 
-    private static final PostGetResponseDTO VALID_POST_GET_RESPONSE_DTO = new PostGetResponseDTO(ID, "", "", 0, "", "", "", 0, 0, new ArrayList<>());
-    private static final PostPutRequestDTO VALID_POST_PUT_REQUEST_DTO = new PostPutRequestDTO(".", ".", ".", ".", new ArrayList<>());
-    private static final PostPostRequestDTO VALID_POST_POST_REQUEST_DTO = new PostPostRequestDTO(ID, ".", ".", ".", ".", new ArrayList<>());
-    private static final PostEntity VALID_POST_ENTITY = new PostEntity(ID, "", ID, "", 0, new Date(), "", "", 0, 0, new ArrayList<>());
+    private static final Post VALID_POST = new Post(ID, "", ID, "", 0, new Date(), "", "", 0, 0, new ArrayList<>());
+    private static final PostDTO.Request VALID_POST_REQUEST = new PostDTO.Request(ID, ".", ".", ".", ".", new ArrayList<>());
+    private static final PostDTO.Response VALID_POST_RESPONSE = new PostDTO.Response(ID, "", 0, "", 0, "", "", "", 0, 0, new ArrayList<>());
 
     @Autowired
     MockMvc mockMvc;
@@ -44,14 +43,14 @@ public class PostControllerTests {
 
     @Test
     public void testInsertPostReturnCreated() throws Exception {
-        Mockito.when(mockPostService.insertPost(anyLong(), any())).thenReturn(VALID_POST_ENTITY);
+        Mockito.when(mockPostService.insertPost(anyLong(), any())).thenReturn(VALID_POST);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/boards/{boardId}/posts", ID)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(VALID_POST_POST_REQUEST_DTO)))
+                        .content(objectMapper.writeValueAsString(VALID_POST_REQUEST)))
                 .andExpect(status().isCreated())
                 .andExpect(content().json(objectMapper.writeValueAsString(
-                        PostPostResponseDTO.fromPostEntity(VALID_POST_ENTITY)
+                        PostDTO.Response.fromPost(VALID_POST)
                 )));
     }
 
@@ -61,7 +60,7 @@ public class PostControllerTests {
 
         mockMvc.perform(MockMvcRequestBuilders.post("/boards/{boardId}/posts", ID)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(VALID_POST_POST_REQUEST_DTO)))
+                        .content(objectMapper.writeValueAsString(VALID_POST_REQUEST)))
                 .andExpect(status().is5xxServerError());
     }
 
@@ -69,7 +68,7 @@ public class PostControllerTests {
     public void testUpdatePostReturnOk() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.put("/boards/{boardId}/posts/{postId}", ID, ID)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(VALID_POST_PUT_REQUEST_DTO)))
+                        .content(objectMapper.writeValueAsString(VALID_POST_REQUEST)))
                 .andExpect(status().isOk());
     }
 
@@ -79,12 +78,12 @@ public class PostControllerTests {
 
         mockMvc.perform(MockMvcRequestBuilders.put("/boards/{boardId}/posts/{postId}", ID, ID)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(VALID_POST_PUT_REQUEST_DTO)))
+                        .content(objectMapper.writeValueAsString(VALID_POST_REQUEST)))
                 .andExpect(status().is5xxServerError());
     }
     @Test
     public void testGetPostListReturnOk() throws Exception {
-        List<PostGetListResponseDTO> list = new ArrayList<>();
+        List<PostDTO.Response> list = new ArrayList<>();
 
         Mockito.when(mockPostService.getPostList(anyLong(), any())).thenReturn(list);
 
@@ -106,11 +105,11 @@ public class PostControllerTests {
     }
     @Test
     public void testGetPostReturnOk() throws Exception {
-        Mockito.when(mockPostService.getPost(anyLong())).thenReturn(VALID_POST_GET_RESPONSE_DTO);
+        Mockito.when(mockPostService.getPost(anyLong())).thenReturn(VALID_POST_RESPONSE);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/boards/{boardId}/posts/{postId}", ID, ID))
                 .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(VALID_POST_GET_RESPONSE_DTO)));
+                .andExpect(content().json(objectMapper.writeValueAsString(VALID_POST_RESPONSE)));
     }
 
     @Test

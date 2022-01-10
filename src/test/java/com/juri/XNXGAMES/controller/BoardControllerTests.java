@@ -1,10 +1,8 @@
 package com.juri.XNXGAMES.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.juri.XNXGAMES.business.dto.BoardGetListResponseDTO;
-import com.juri.XNXGAMES.business.dto.BoardPostResponseDTO;
-import com.juri.XNXGAMES.business.dto.BoardRequestDTO;
-import com.juri.XNXGAMES.business.entity.BoardEntity;
+import com.juri.XNXGAMES.business.dto.BoardDTO;
+import com.juri.XNXGAMES.business.entity.Board;
 import com.juri.XNXGAMES.business.service.BoardService;
 import com.juri.XNXGAMES.config.ControllerTestConfiguration;
 import org.junit.jupiter.api.Test;
@@ -34,8 +32,8 @@ public class BoardControllerTests {
     private static final String TYPE = "type";
     private static final String SUB_TYPE = "subType";
 
-    private static final BoardRequestDTO VALID_BOARD_REQUEST_DTO = new BoardRequestDTO(TYPE, SUB_TYPE);
-    private static final BoardEntity VALID_BOARD_ENTITY = new BoardEntity(ID, TYPE, SUB_TYPE);
+    private static final Board VALID_BOARD = new Board(ID, TYPE, SUB_TYPE);
+    private static final BoardDTO.Request VALID_BOARD_REQUEST = new BoardDTO.Request(TYPE, SUB_TYPE);
 
     @Autowired
     MockMvc mockMvc;
@@ -45,7 +43,7 @@ public class BoardControllerTests {
 
     @Test
     public void testGetBoardListReturnOk() throws Exception {
-        List<BoardGetListResponseDTO> list = new ArrayList<>();
+        List<BoardDTO.Response> list = new ArrayList<>();
 
         Mockito.when(mockBoardService.getBoardList()).thenReturn(list);
 
@@ -67,8 +65,8 @@ public class BoardControllerTests {
         Mockito.when(mockBoardService.getBoard(any())).thenReturn(ID);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/boards")
-                        .queryParam("boardType", TYPE)
-                        .queryParam("boardSubType", SUB_TYPE))
+                        .queryParam("type", TYPE)
+                        .queryParam("subType", SUB_TYPE))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(ID)));
     }
@@ -78,21 +76,21 @@ public class BoardControllerTests {
         Mockito.when(mockBoardService.getBoard(any())).thenThrow(RuntimeException.class);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/boards")
-                        .queryParam("boardType", TYPE)
-                        .queryParam("boardSubType", SUB_TYPE))
+                        .queryParam("type", TYPE)
+                        .queryParam("subType", SUB_TYPE))
                 .andExpect(status().is5xxServerError());
     }
 
     @Test
     public void testInsertBoardReturnCreated() throws Exception {
-        Mockito.when(mockBoardService.insertBoard(any())).thenReturn(VALID_BOARD_ENTITY);
+        Mockito.when(mockBoardService.insertBoard(any())).thenReturn(VALID_BOARD);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/boards")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(VALID_BOARD_REQUEST_DTO)))
+                        .content(objectMapper.writeValueAsString(VALID_BOARD_REQUEST)))
                 .andExpect(status().isCreated())
                 .andExpect(content().json(objectMapper.writeValueAsString(
-                        BoardPostResponseDTO.fromBoardEntity(VALID_BOARD_ENTITY)
+                        BoardDTO.Response.fromBoard(VALID_BOARD)
                 )));
     }
 
@@ -102,7 +100,7 @@ public class BoardControllerTests {
 
         mockMvc.perform(MockMvcRequestBuilders.post("/boards")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(VALID_BOARD_REQUEST_DTO)))
+                        .content(objectMapper.writeValueAsString(VALID_BOARD_REQUEST)))
                 .andExpect(status().is5xxServerError());
     }
 
@@ -110,7 +108,7 @@ public class BoardControllerTests {
     public void testUpdateBoardReturnOk() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.put("/boards/{boardId}", ID)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(VALID_BOARD_REQUEST_DTO)))
+                        .content(objectMapper.writeValueAsString(VALID_BOARD_REQUEST)))
                 .andExpect(status().isOk());
     }
 
@@ -120,7 +118,7 @@ public class BoardControllerTests {
 
         mockMvc.perform(MockMvcRequestBuilders.put("/boards/{boardId}", ID)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(VALID_BOARD_REQUEST_DTO)))
+                        .content(objectMapper.writeValueAsString(VALID_BOARD_REQUEST)))
                 .andExpect(status().is5xxServerError());
     }
 

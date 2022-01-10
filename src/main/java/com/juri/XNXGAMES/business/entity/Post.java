@@ -14,7 +14,7 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostEntity {
+public class Post {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -51,7 +51,7 @@ public class PostEntity {
 	private List<String> gameTagList;
 
 	@Builder
-	public PostEntity(String type, long boardId, String writerId, String title, String content, List<String> gameTagList) {
+	public Post(String type, long boardId, String writerId, String title, String content, List<String> gameTagList) {
 		this.type = type;
 		this.boardId = boardId;
 		this.writerId = writerId;

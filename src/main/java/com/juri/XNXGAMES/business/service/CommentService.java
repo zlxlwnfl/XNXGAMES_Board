@@ -1,17 +1,15 @@
 package com.juri.XNXGAMES.business.service;
 
-import com.juri.XNXGAMES.business.dto.CommentGetListResponseDTO;
-import com.juri.XNXGAMES.business.dto.CommentPostRequestDTO;
-import com.juri.XNXGAMES.business.dto.CommentPutRequestDTO;
-import com.juri.XNXGAMES.business.entity.CommentEntity;
+import com.juri.XNXGAMES.business.dto.CommentDTO;
+import com.juri.XNXGAMES.business.entity.Comment;
 
 import java.util.List;
 
 public interface CommentService {
 
-	CommentEntity insertComment(long postId, CommentPostRequestDTO commentPostRequestDTO);
-	void updateComment(long commentId, CommentPutRequestDTO commentDTO);
-	List<CommentGetListResponseDTO> getCommentList(long postId);
+	Comment insertComment(long postId, CommentDTO.Request commentRequest);
+	void updateComment(long commentId, CommentDTO.Request commentRequest);
+	List<CommentDTO.Response> getCommentList(long postId);
 	void deleteComment(long commentId);
 	
 }

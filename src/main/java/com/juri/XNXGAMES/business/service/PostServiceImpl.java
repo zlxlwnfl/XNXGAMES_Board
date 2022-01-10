@@ -1,7 +1,8 @@
 package com.juri.XNXGAMES.business.service;
 
-import com.juri.XNXGAMES.business.dto.*;
-import com.juri.XNXGAMES.business.entity.PostEntity;
+import com.juri.XNXGAMES.business.dto.BoardDTO;
+import com.juri.XNXGAMES.business.dto.PostDTO;
+import com.juri.XNXGAMES.business.entity.Post;
 import com.juri.XNXGAMES.business.exception.ErrorCode;
 import com.juri.XNXGAMES.business.exception.PostException;
 import com.juri.XNXGAMES.business.message.BoardToMemberPostMessage;
@@ -26,17 +27,17 @@ public class PostServiceImpl implements PostService {
 	private final EventDispatcher eventDispatcher;
 
 	@Override
-	public PostEntity insertPost(final long boardId, @NonNull final PostPostRequestDTO postPostRequestDTO) {
-		PostEntity post = PostEntity.builder()
-				.type(postPostRequestDTO.getPostType())
+	public Post insertPost(final long boardId, @NonNull final PostDTO.Request postRequest) {
+		Post post = Post.builder()
+				.type(postRequest.getPostType())
 				.boardId(boardId)
-				.writerId(postPostRequestDTO.getWriterId())
-				.title(postPostRequestDTO.getTitle())
-				.content(postPostRequestDTO.getContent())
-				.gameTagList(postPostRequestDTO.getGameTagList())
+				.writerId(postRequest.getWriterId())
+				.title(postRequest.getTitle())
+				.content(postRequest.getContent())
+				.gameTagList(postRequest.getGameTagList())
 				.build();
 
-		PostEntity savedPost;
+		Post savedPost;
 		try {
 			savedPost = postRepository.save(post);
 		}
@@ -47,7 +48,7 @@ public class PostServiceImpl implements PostService {
 		try {
 			eventDispatcher.boardToMemberPostSend(
 					new BoardToMemberPostMessage(
-							"create", postPostRequestDTO.getWriterId(), savedPost.getPostId()
+							"create", postRequest.getWriterId(), savedPost.getPostId()
 					));
 		}
 		catch(MaxRetriesExceededException e) {
@@ -58,9 +59,9 @@ public class PostServiceImpl implements PostService {
 	}
 	
 	@Override
-	public void updatePost(final long postId, @NonNull final PostPutRequestDTO postPutRequestDTO) {
-		String title = postPutRequestDTO.getTitle();
-		String content = postPutRequestDTO.getContent();
+	public void updatePost(final long postId, @NonNull final PostDTO.Request postRequest) {
+		String title = postRequest.getTitle();
+		String content = postRequest.getContent();
 
 		if(postRepository.existsByPostId(postId)) {
 			postRepository.updateById(postId, title, content);
@@ -71,19 +72,19 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public List<PostGetListResponseDTO> getPostList(final long boardId, @NonNull final BoardCriteriaDTO boardCriDTO) {
-		Pageable boardPaging = PageRequest.of(boardCriDTO.getCurrentPageNum() - 1,
-												boardCriDTO.getAmountData());
+	public List<PostDTO.Response> getPostList(final long boardId, @NonNull final BoardDTO.Criterial boardCriterial) {
+		Pageable boardPaging = PageRequest.of(boardCriterial.getCurrentPageNum() - 1,
+				boardCriterial.getAmountData());
 		
-		List<PostEntity> list = postRepository.findByBoardIdOrderByRegdateDesc(boardId, boardPaging);
+		List<Post> list = postRepository.findByBoardIdOrderByRegdateDesc(boardId, boardPaging);
 		
-		List<PostGetListResponseDTO> returnList = new ArrayList<>();
+		List<PostDTO.Response> returnList = new ArrayList<>();
 		SimpleDateFormat format = new SimpleDateFormat("MM-dd");
 		
-		for(PostEntity p : list) {
-			PostGetListResponseDTO dto = PostGetListResponseDTO.builder()
+		for(Post p : list) {
+			PostDTO.Response postResponse = PostDTO.Response.builder()
 					.postId(p.getPostId())
-					.postType(p.getType())
+					.type(p.getType())
 					.writerId(p.getWriterId())
 					.commentCount(p.getCommentCount())
 					.regdate(format.format(p.getRegdate()))
@@ -92,40 +93,40 @@ public class PostServiceImpl implements PostService {
 					.heartCount(p.getHeartCount())
 					.build();
 			
-			returnList.add(dto);
+			returnList.add(postResponse);
 		}
 		
 		return returnList;
 	}
 
 	@Override
-	public PostGetResponseDTO getPost(final long postId) {
-		Optional<PostEntity> postEntityOptional = postRepository.findById(postId);
+	public PostDTO.Response getPost(final long postId) {
+		Optional<Post> postEntityOptional = postRepository.findById(postId);
 
-		PostEntity postEntity;
+		Post post;
 		if(postEntityOptional.isPresent()) {
-			postEntity = postEntityOptional.get();
+			post = postEntityOptional.get();
 		}
 		else {
 			throw new PostException(ErrorCode.POST_NOT_EXIST);
 		}
 
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		
-		PostGetResponseDTO postGetResponseDTO = PostGetResponseDTO.builder()
-				.postId(postEntity.getPostId())
-				.postType(postEntity.getType())
-				.writerId(postEntity.getWriterId())
-				.commentCount(postEntity.getCommentCount())
-				.regdate(format.format(postEntity.getRegdate()))
-				.title(postEntity.getTitle())
-				.content(postEntity.getContent())
-				.hits(postEntity.getHits())
-				.heartCount(postEntity.getHeartCount())
-				.gameTagList(postEntity.getGameTagList())
+
+		PostDTO.Response postResponse = PostDTO.Response.builder()
+				.postId(post.getPostId())
+				.type(post.getType())
+				.writerId(post.getWriterId())
+				.commentCount(post.getCommentCount())
+				.regdate(format.format(post.getRegdate()))
+				.title(post.getTitle())
+				.content(post.getContent())
+				.hits(post.getHits())
+				.heartCount(post.getHeartCount())
+				.gameTagList(post.getGameTagList())
 				.build();
 		
-		return postGetResponseDTO;
+		return postResponse;
 	}
 
 	@Override

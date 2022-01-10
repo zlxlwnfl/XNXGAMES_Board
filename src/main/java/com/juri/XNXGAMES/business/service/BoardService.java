@@ -1,17 +1,16 @@
 package com.juri.XNXGAMES.business.service;
 
-import com.juri.XNXGAMES.business.dto.BoardGetListResponseDTO;
-import com.juri.XNXGAMES.business.dto.BoardRequestDTO;
-import com.juri.XNXGAMES.business.entity.BoardEntity;
+import com.juri.XNXGAMES.business.dto.BoardDTO;
+import com.juri.XNXGAMES.business.entity.Board;
 
 import java.util.List;
 
 public interface BoardService {
 
-	Long getBoard(BoardRequestDTO boardRequestDTO);
-	List<BoardGetListResponseDTO> getBoardList();
-	BoardEntity insertBoard(BoardRequestDTO boardRequestDTO);
-	void updateBoard(long boardId, BoardRequestDTO boardRequestDTO);
+	Long getBoard(BoardDTO.Request boardRequest);
+	List<BoardDTO.Response> getBoardList();
+	Board insertBoard(BoardDTO.Request boardRequest);
+	void updateBoard(long boardId, BoardDTO.Request boardRequest);
 	void deleteBoard(long boardId);
 	
 }

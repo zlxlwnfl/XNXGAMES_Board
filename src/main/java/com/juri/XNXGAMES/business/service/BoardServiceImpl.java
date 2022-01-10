@@ -1,8 +1,7 @@
 package com.juri.XNXGAMES.business.service;
 
-import com.juri.XNXGAMES.business.dto.BoardGetListResponseDTO;
-import com.juri.XNXGAMES.business.dto.BoardRequestDTO;
-import com.juri.XNXGAMES.business.entity.BoardEntity;
+import com.juri.XNXGAMES.business.dto.BoardDTO;
+import com.juri.XNXGAMES.business.entity.Board;
 import com.juri.XNXGAMES.business.exception.BoardException;
 import com.juri.XNXGAMES.business.exception.ErrorCode;
 import com.juri.XNXGAMES.business.repository.BoardRepository;
@@ -21,9 +20,9 @@ public class BoardServiceImpl implements BoardService {
 	private final BoardRepository boardRepository;
 
 	@Override
-	public Long getBoard(@NonNull final BoardRequestDTO boardRequestDTO) {
-		Optional<BoardEntity> boardEntityOptional =
-				boardRepository.findByTypeAndSubType(boardRequestDTO.getBoardType(), boardRequestDTO.getBoardSubType());
+	public Long getBoard(@NonNull final BoardDTO.Request boardRequest) {
+		Optional<Board> boardEntityOptional =
+				boardRepository.findByTypeAndSubType(boardRequest.getType(), boardRequest.getSubType());
 
 		if(boardEntityOptional.isPresent()) {
 			return boardEntityOptional.get().getBoardId();
@@ -34,16 +33,16 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<BoardGetListResponseDTO> getBoardList() {
-		List<BoardEntity> list = boardRepository.findAll();
+	public List<BoardDTO.Response> getBoardList() {
+		List<Board> list = boardRepository.findAll();
 
-		List<BoardGetListResponseDTO> dtoList = new ArrayList<>();
+		List<BoardDTO.Response> dtoList = new ArrayList<>();
 
-		for(BoardEntity board : list) {
-			BoardGetListResponseDTO dto = BoardGetListResponseDTO.builder()
+		for(Board board : list) {
+			BoardDTO.Response dto = BoardDTO.Response.builder()
 					.boardId(board.getBoardId())
-					.boardType(board.getType())
-					.boardSubType(board.getSubType())
+					.type(board.getType())
+					.subType(board.getSubType())
 					.build();
 
 			dtoList.add(dto);
@@ -53,10 +52,10 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public BoardEntity insertBoard(@NonNull final BoardRequestDTO boardRequestDTO) {
-		BoardEntity board = BoardEntity.builder()
-				.type(boardRequestDTO.getBoardType())
-				.subType(boardRequestDTO.getBoardSubType())
+	public Board insertBoard(@NonNull final BoardDTO.Request boardRequest) {
+		Board board = Board.builder()
+				.type(boardRequest.getType())
+				.subType(boardRequest.getSubType())
 				.build();
 
 		try {
@@ -68,9 +67,9 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void updateBoard(final long boardId, @NonNull final BoardRequestDTO boardRequestDTO) {
-		String type = boardRequestDTO.getBoardType();
-		String subType = boardRequestDTO.getBoardSubType();
+	public void updateBoard(final long boardId, @NonNull final BoardDTO.Request boardRequest) {
+		String type = boardRequest.getType();
+		String subType = boardRequest.getSubType();
 
 		if(boardRepository.existsByBoardId(boardId)) {
 			boardRepository.updateById(boardId, type, subType);

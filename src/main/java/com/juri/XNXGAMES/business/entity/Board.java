@@ -10,7 +10,7 @@ import javax.persistence.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class BoardEntity {
+public class Board {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,7 +23,7 @@ public class BoardEntity {
 	private String subType;
 
 	@Builder
-	public BoardEntity(String type, String subType) {
+	public Board(String type, String subType) {
 		this.type = type;
 		this.subType = subType;
 	}

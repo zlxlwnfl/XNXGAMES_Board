@@ -1,9 +1,6 @@
 package com.juri.XNXGAMES.business.controller;
 
-import com.juri.XNXGAMES.business.dto.CommentGetListResponseDTO;
-import com.juri.XNXGAMES.business.dto.CommentPostRequestDTO;
-import com.juri.XNXGAMES.business.dto.CommentPostResponseDTO;
-import com.juri.XNXGAMES.business.dto.CommentPutRequestDTO;
+import com.juri.XNXGAMES.business.dto.CommentDTO;
 import com.juri.XNXGAMES.business.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,21 +17,21 @@ public class CommentController {
 	private final CommentService commentService;
 	
 	@PostMapping("/boards/{boardId}/posts/{postId}/comments")
-	public ResponseEntity<CommentPostResponseDTO> insertComment(@PathVariable long postId, @Valid @RequestBody CommentPostRequestDTO commentPostRequestDTO) {
+	public ResponseEntity<CommentDTO.Response> insertComment(@PathVariable long postId, @Valid @RequestBody CommentDTO.Request commentRequest) {
 		return new ResponseEntity<>(
-				CommentPostResponseDTO.fromCommentEntity(commentService.insertComment(postId, commentPostRequestDTO)),
+				CommentDTO.Response.fromComment(commentService.insertComment(postId, commentRequest)),
 				HttpStatus.CREATED
 		);
 	}
 	
 	@PutMapping("/boards/{boardId}/posts/{postId}/comments/{commentId}")
-	public ResponseEntity<Void> updateComment(@PathVariable long commentId, @Valid @RequestBody CommentPutRequestDTO commentPutRequestDTO) {
-		commentService.updateComment(commentId, commentPutRequestDTO);
+	public ResponseEntity<Void> updateComment(@PathVariable long commentId, @Valid @RequestBody CommentDTO.Request commentRequest) {
+		commentService.updateComment(commentId, commentRequest);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@GetMapping("/boards/{boardId}/posts/{postId}/comments/list")
-	public ResponseEntity<List<CommentGetListResponseDTO>> getCommentList(@PathVariable long postId) {
+	public ResponseEntity<List<CommentDTO.Response>> getCommentList(@PathVariable long postId) {
 		return new ResponseEntity<>(commentService.getCommentList(postId), HttpStatus.OK);
 	}
 	

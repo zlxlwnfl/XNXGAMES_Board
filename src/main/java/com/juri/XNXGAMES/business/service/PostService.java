@@ -1,16 +1,17 @@
 package com.juri.XNXGAMES.business.service;
 
-import com.juri.XNXGAMES.business.dto.*;
-import com.juri.XNXGAMES.business.entity.PostEntity;
+import com.juri.XNXGAMES.business.dto.BoardDTO;
+import com.juri.XNXGAMES.business.dto.PostDTO;
+import com.juri.XNXGAMES.business.entity.Post;
 
 import java.util.List;
 
 public interface PostService {
 
-	PostEntity insertPost(long boardId, PostPostRequestDTO postPostRequestDTO);
-	void updatePost(long postId, PostPutRequestDTO postDTO);
-	List<PostGetListResponseDTO> getPostList(long boardId, BoardCriteriaDTO boardCriDTO);
-	PostGetResponseDTO getPost(long postId);
+	Post insertPost(long boardId, PostDTO.Request postRequest);
+	void updatePost(long postId, PostDTO.Request postRequest);
+	List<PostDTO.Response> getPostList(long boardId, BoardDTO.Criterial boardCriterial);
+	PostDTO.Response getPost(long postId);
 	void deletePost(long postId);
 	int getAmountPost(long boardId);
 	

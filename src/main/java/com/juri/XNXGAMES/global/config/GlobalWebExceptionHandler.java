@@ -20,11 +20,15 @@ public class GlobalWebExceptionHandler {
 
     @ExceptionHandler(CustomException.class)
     protected ResponseEntity<ErrorResponse> handleCustomException(CustomException e) {
+        logger.error(e.fillInStackTrace().toString());
+
         return ErrorResponse.toResponseEntity(e.getErrorCode());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<String> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+        logger.error(e.fillInStackTrace().toString());
+
         List<ObjectError> errors = e.getBindingResult()
                 .getAllErrors();
 
@@ -37,6 +41,8 @@ public class GlobalWebExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<String> handleException(Exception e) {
+        logger.error(e.fillInStackTrace().toString());
+
         return new ResponseEntity<>(e.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

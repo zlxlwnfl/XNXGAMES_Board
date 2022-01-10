@@ -1,8 +1,7 @@
 package com.juri.XNXGAMES.service;
 
-import com.juri.XNXGAMES.business.dto.BoardGetListResponseDTO;
-import com.juri.XNXGAMES.business.dto.BoardRequestDTO;
-import com.juri.XNXGAMES.business.entity.BoardEntity;
+import com.juri.XNXGAMES.business.dto.BoardDTO;
+import com.juri.XNXGAMES.business.entity.Board;
 import com.juri.XNXGAMES.business.exception.BoardException;
 import com.juri.XNXGAMES.business.repository.BoardRepository;
 import com.juri.XNXGAMES.business.service.BoardService;
@@ -29,9 +28,9 @@ public class BoardServiceTests {
     private static final String TYPE = "type";
     private static final String SUB_TYPE = "subType";
 
-    private static final BoardRequestDTO VALID_BOARD_REQUEST_DTO = new BoardRequestDTO(TYPE, SUB_TYPE);
-    private static final BoardEntity VALID_BOARD_ENTITY = new BoardEntity(ID, TYPE, SUB_TYPE);
-    private static final BoardGetListResponseDTO VALID_BOARD_GET_LIST_RESPONSE_DTO = new BoardGetListResponseDTO(ID, TYPE, SUB_TYPE);
+    private static final Board VALID_BOARD = new Board(ID, TYPE, SUB_TYPE);
+    private static final BoardDTO.Request VALID_BOARD_REQUEST = new BoardDTO.Request(TYPE, SUB_TYPE);
+    private static final BoardDTO.Response VALID_BOARD_RESPONSE = new BoardDTO.Response(ID, TYPE, SUB_TYPE);
 
     @Autowired
     private BoardService boardService;
@@ -46,22 +45,22 @@ public class BoardServiceTests {
 
     @Test
     public void testGetBoardReturnValidBoardId() {
-        Mockito.when(mockBoardRepository.findByTypeAndSubType(TYPE, SUB_TYPE)).thenReturn(Optional.of(VALID_BOARD_ENTITY));
+        Mockito.when(mockBoardRepository.findByTypeAndSubType(TYPE, SUB_TYPE)).thenReturn(Optional.of(VALID_BOARD));
 
-        Assertions.assertEquals(1, boardService.getBoard(VALID_BOARD_REQUEST_DTO));
+        Assertions.assertEquals(1, boardService.getBoard(VALID_BOARD_REQUEST));
     }
 
     @Test
     public void testGetBoardThrowBoardException() {
         Mockito.when(mockBoardRepository.findByTypeAndSubType(TYPE, SUB_TYPE)).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(BoardException.class, () -> boardService.getBoard(VALID_BOARD_REQUEST_DTO));
+        Assertions.assertThrows(BoardException.class, () -> boardService.getBoard(VALID_BOARD_REQUEST));
     }
 
     @Test
     public void testGetBoardListReturnValidList() {
-        List<BoardEntity> list = Collections.singletonList(VALID_BOARD_ENTITY);
-        List<BoardGetListResponseDTO> dtoList = new ArrayList<>(Collections.singletonList(VALID_BOARD_GET_LIST_RESPONSE_DTO));
+        List<Board> list = Collections.singletonList(VALID_BOARD);
+        List<BoardDTO.Response> dtoList = new ArrayList<>(Collections.singletonList(VALID_BOARD_RESPONSE));
 
         Mockito.when(mockBoardRepository.findAll()).thenReturn(list);
 
@@ -70,30 +69,30 @@ public class BoardServiceTests {
 
     @Test
     public void testInsertBoardReturnValidBoardEntity() {
-        Mockito.when(mockBoardRepository.save(any())).thenReturn(VALID_BOARD_ENTITY);
+        Mockito.when(mockBoardRepository.save(any())).thenReturn(VALID_BOARD);
 
-        Assertions.assertEquals(VALID_BOARD_ENTITY, boardService.insertBoard(VALID_BOARD_REQUEST_DTO));
+        Assertions.assertEquals(VALID_BOARD, boardService.insertBoard(VALID_BOARD_REQUEST));
     }
 
     @Test
     public void testInsertBoardThrowIllegalArgumentException() {
         Mockito.when(mockBoardRepository.save(any())).thenThrow(IllegalArgumentException.class);
 
-        Assertions.assertThrows(BoardException.class, () -> boardService.insertBoard(VALID_BOARD_REQUEST_DTO));
+        Assertions.assertThrows(BoardException.class, () -> boardService.insertBoard(VALID_BOARD_REQUEST));
     }
 
     @Test
     public void testUpdateBoardSuccess() {
         Mockito.when(mockBoardRepository.existsByBoardId(ID)).thenReturn(true);
 
-        Assertions.assertDoesNotThrow(() -> boardService.updateBoard(ID, VALID_BOARD_REQUEST_DTO));
+        Assertions.assertDoesNotThrow(() -> boardService.updateBoard(ID, VALID_BOARD_REQUEST));
     }
 
     @Test
     public void testUpdateBoardThrowBoardException() {
         Mockito.when(mockBoardRepository.existsByBoardId(ID)).thenReturn(false);
 
-        Assertions.assertThrows(BoardException.class, () -> boardService.updateBoard(ID, VALID_BOARD_REQUEST_DTO));
+        Assertions.assertThrows(BoardException.class, () -> boardService.updateBoard(ID, VALID_BOARD_REQUEST));
     }
 
     @Test

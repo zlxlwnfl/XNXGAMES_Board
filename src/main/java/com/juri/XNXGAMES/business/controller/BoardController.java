@@ -1,8 +1,6 @@
 package com.juri.XNXGAMES.business.controller;
 
-import com.juri.XNXGAMES.business.dto.BoardGetListResponseDTO;
-import com.juri.XNXGAMES.business.dto.BoardPostResponseDTO;
-import com.juri.XNXGAMES.business.dto.BoardRequestDTO;
+import com.juri.XNXGAMES.business.dto.BoardDTO;
 import com.juri.XNXGAMES.business.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,26 +17,26 @@ public class BoardController {
     private final BoardService boardService;
 
     @GetMapping("/boards/list")
-    public ResponseEntity<List<BoardGetListResponseDTO>> getBoardList() {
+    public ResponseEntity<List<BoardDTO.Response>> getBoardList() {
         return new ResponseEntity<>(boardService.getBoardList(), HttpStatus.OK);
     }
 
     @GetMapping("/boards")
-    public ResponseEntity<Long> getBoardId(@RequestParam String boardType, @RequestParam String boardSubType) {
-        return new ResponseEntity<>(boardService.getBoard(new BoardRequestDTO(boardType, boardSubType)), HttpStatus.OK);
+    public ResponseEntity<Long> getBoardId(@RequestParam String type, @RequestParam String subType) {
+        return new ResponseEntity<>(boardService.getBoard(new BoardDTO.Request(type, subType)), HttpStatus.OK);
     }
 
     @PostMapping("/boards")
-    public ResponseEntity<BoardPostResponseDTO> insertBoard(@Valid @RequestBody BoardRequestDTO boardRequestDTO) {
+    public ResponseEntity<BoardDTO.Response> insertBoard(@Valid @RequestBody BoardDTO.Request boardRequest) {
         return new ResponseEntity<>(
-                BoardPostResponseDTO.fromBoardEntity(boardService.insertBoard(boardRequestDTO)),
+                BoardDTO.Response.fromBoard(boardService.insertBoard(boardRequest)),
                 HttpStatus.CREATED
         );
     }
 
     @PutMapping("/boards/{boardId}")
-    public ResponseEntity<Void> updateBoard(@PathVariable long boardId, @Valid @RequestBody BoardRequestDTO boardRequestDTO) {
-        boardService.updateBoard(boardId, boardRequestDTO);
+    public ResponseEntity<Void> updateBoard(@PathVariable long boardId, @Valid @RequestBody BoardDTO.Request boardRequest) {
+        boardService.updateBoard(boardId, boardRequest);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

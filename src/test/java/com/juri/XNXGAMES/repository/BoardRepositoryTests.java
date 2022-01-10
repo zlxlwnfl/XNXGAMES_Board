@@ -1,6 +1,6 @@
 package com.juri.XNXGAMES.repository;
 
-import com.juri.XNXGAMES.business.entity.BoardEntity;
+import com.juri.XNXGAMES.business.entity.Board;
 import com.juri.XNXGAMES.business.repository.BoardRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,26 +21,26 @@ public class BoardRepositoryTests {
     @Autowired
     private BoardRepository boardRepository;
 
-    private BoardEntity firstBoardEntity;
-    private BoardEntity secondBoardEntity;
+    private Board firstBoard;
+    private Board secondBoard;
 
     @BeforeEach
     public void initBoardRepository() {
-        List<BoardEntity> boardEntityList = Arrays.asList(
-                new BoardEntity(0L, "firstType", "firstSubType"),
-                new BoardEntity(0L, "secondType", "secondSubType")
+        List<Board> boardList = Arrays.asList(
+                new Board(0L, "firstType", "firstSubType"),
+                new Board(0L, "secondType", "secondSubType")
         );
 
-        boardRepository.saveAll(boardEntityList);
+        boardRepository.saveAll(boardList);
 
-        boardEntityList = boardRepository.findAll();
-        firstBoardEntity = boardEntityList.get(0);
-        secondBoardEntity = boardEntityList.get(1);
+        boardList = boardRepository.findAll();
+        firstBoard = boardList.get(0);
+        secondBoard = boardList.get(1);
     }
 
     @Test
     public void testExistsByBoardIdWithValidBoardIdReturnTrue() {
-        Assertions.assertTrue(boardRepository.existsByBoardId(firstBoardEntity.getBoardId()));
+        Assertions.assertTrue(boardRepository.existsByBoardId(firstBoard.getBoardId()));
     }
 
     @Test
@@ -51,7 +51,7 @@ public class BoardRepositoryTests {
     @Test
     public void testFindByTypeAndSubTypeWithValidValue() {
         Assertions.assertEquals(
-                Optional.of(firstBoardEntity),
+                Optional.of(firstBoard),
                 boardRepository.findByTypeAndSubType("firstType", "firstSubType")
         );
     }
@@ -67,7 +67,7 @@ public class BoardRepositoryTests {
     @Test
     public void testUpdateByIdWithValidValueSucess() {
         Assertions.assertDoesNotThrow(() -> boardRepository.updateById(
-                firstBoardEntity.getBoardId(), "changeType", "changeSubType"));
+                firstBoard.getBoardId(), "changeType", "changeSubType"));
     }
 
 }

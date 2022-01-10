@@ -13,7 +13,7 @@ import java.util.Date;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommentEntity {
+public class Comment {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,7 +35,7 @@ public class CommentEntity {
 	private int heartCount;
 
 	@Builder
-	public CommentEntity(long postId, String writerId, String content) {
+	public Comment(long postId, String writerId, String content) {
 		this.postId = postId;
 		this.writerId = writerId;
 		this.content = content;
