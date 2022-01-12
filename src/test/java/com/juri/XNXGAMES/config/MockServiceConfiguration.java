@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 @TestConfiguration
-public class ControllerTestConfiguration {
+public class MockServiceConfiguration {
 
     @MockBean
     CommentService mockCommentService;

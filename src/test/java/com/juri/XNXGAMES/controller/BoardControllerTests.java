@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.juri.XNXGAMES.business.dto.BoardDTO;
 import com.juri.XNXGAMES.business.entity.Board;
 import com.juri.XNXGAMES.business.service.BoardService;
-import com.juri.XNXGAMES.config.ControllerTestConfiguration;
+import com.juri.XNXGAMES.config.MockServiceConfiguration;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest
-@Import({ ControllerTestConfiguration.class })
+@Import({ MockServiceConfiguration.class })
 public class BoardControllerTests {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();

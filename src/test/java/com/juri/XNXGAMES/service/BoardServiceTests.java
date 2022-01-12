@@ -5,7 +5,7 @@ import com.juri.XNXGAMES.business.entity.Board;
 import com.juri.XNXGAMES.business.exception.BoardException;
 import com.juri.XNXGAMES.business.repository.BoardRepository;
 import com.juri.XNXGAMES.business.service.BoardService;
-import com.juri.XNXGAMES.config.ServiceTestConfiguration;
+import com.juri.XNXGAMES.config.MockRepoConfiguration;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -21,7 +21,7 @@ import java.util.Optional;
 import static org.mockito.ArgumentMatchers.any;
 
 @SpringBootTest
-@Import({ ServiceTestConfiguration.class })
+@Import({ MockRepoConfiguration.class })
 public class BoardServiceTests {
 
     private static final long ID = 1L;

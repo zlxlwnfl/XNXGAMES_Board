@@ -20,7 +20,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
         CircuitBreakerAutoConfiguration.class,
         TimeLimiterAutoConfiguration.class
 })
-public class ServiceTestConfiguration {
+public class MockRepoConfiguration {
 
     @MockBean
     CommentRepository mockCommentRepository;
